@@ -1,7 +1,21 @@
-﻿//using UnityEngine;
+﻿using UnityEngine;
 //using System.Collections;
 
-//public class ColorExtension {
+public static class ColorExtension {
+
+
+    public static Color SetA(this Color color, float a) {
+        //Color temp = new Color(color.r, color.g, color.b, a);
+        Color temp = color;
+        temp.a = a;
+        color = temp;
+        return color;
+    }
+
+
+
+
+}
 
 //    public static void Hex(this Color color, string hexString) {
 //        //hexString.Replace("#", "")

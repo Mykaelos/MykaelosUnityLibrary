@@ -24,4 +24,12 @@ public static class TransformExtensions {
         transform.position = temp;
         return transform;
     }
+
+    public static Transform AddX(this Transform transform, float x) {
+        return transform.SetX(transform.position.x + x);
+    }
+
+    public static Transform AddY(this Transform transform, float y) {
+        return transform.SetY(transform.position.y + y);
+    }
 }

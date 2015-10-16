@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using Enum.Extensions;
+﻿using MykaelosUnityLibrary.Extensions;
 
 /*Utility for determining the current running platform.
  * TODO:
@@ -8,18 +6,19 @@ using Enum.Extensions;
  * - Add boolean checks
  */
 
-public class Platform {
-    private static PlatformType _CurrentPlatform = PlatformType.NOTSET;
-    public static PlatformType CurrentPlatform {
-        get { return !_CurrentPlatform.Is(PlatformType.NOTSET) ? _CurrentPlatform : DeterminePlatform(); }
-    }
+namespace MykaelosUnityLibrary {
+    public class Platform {
+        private static PlatformType _CurrentPlatform = PlatformType.NOTSET;
+        public static PlatformType CurrentPlatform {
+            get { return !_CurrentPlatform.Is(PlatformType.NOTSET) ? _CurrentPlatform : DeterminePlatform(); }
+        }
 
-    public static bool IsWeb {
-        get { return CurrentPlatform.Is(PlatformType.WebGL) || CurrentPlatform.Is(PlatformType.WebPlayer); }
-    }
+        public static bool IsWeb {
+            get { return CurrentPlatform.Is(PlatformType.WebGL) || CurrentPlatform.Is(PlatformType.WebPlayer); }
+        }
 
 
-    private static PlatformType DeterminePlatform() {
+        private static PlatformType DeterminePlatform() {
 #if UNITY_STANDALONE
         _CurrentPlatform = PlatformType.Standalone;
 #endif
@@ -32,13 +31,19 @@ public class Platform {
         _CurrentPlatform = PlatformType.WebPlayer;
 #endif
 
-        return _CurrentPlatform;
-    }
-}
+#if (UNITY_ANDROID || UNITY_IOS)
+        _CurrentPlatform = PlatformType.Mobile;
+#endif
 
-public enum PlatformType {
-    NOTSET,
-    Standalone,
-    WebGL,
-    WebPlayer
+            return _CurrentPlatform;
+        }
+    }
+
+    public enum PlatformType {
+        NOTSET,
+        Standalone,
+        WebGL,
+        WebPlayer,
+        Mobile
+    }
 }
