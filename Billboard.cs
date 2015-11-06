@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Billboard : MonoBehaviour {
 
+    //LateUpdate prevents any flickering that might happen if the camera moves after the Billboards update.
+    //Camera movement should happen during the update function.
     void LateUpdate() {
-        Vector3 dir = Camera.main.transform.forward;
-        dir.y = 0.0f;
-        transform.rotation = Quaternion.LookRotation(dir);
+        Vector3 cameraDirection = Camera.main.transform.forward;
+        cameraDirection.y = 0.0f; //remove the y rotation
+        transform.rotation = Quaternion.LookRotation(cameraDirection);
     }
 }
