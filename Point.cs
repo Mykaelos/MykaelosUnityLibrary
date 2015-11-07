@@ -12,6 +12,12 @@ public struct Point : System.IEquatable<Point> {
         return new Vector3(X, 0, Y);
     }
 
+    public Point Normalize() {
+        X = Mathf.Clamp(X, -1, 1);
+        Y = Mathf.Clamp(Y, -1, 1);
+        return this;
+    }
+
     public bool Equals(Point other) {
         return X == other.X && Y == other.Y;
     }
