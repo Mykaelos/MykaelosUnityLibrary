@@ -1,0 +1,1 @@
+The .gitignore in this folder can be copied right into the root of your new Unity project.
