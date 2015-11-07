@@ -62,4 +62,6 @@ public enum MyEnum
     Third  = 1 << 2,
     Fourth = 1 << 3
 }
+
+if(enumThingy.Has(Thingy.Banana | Thingy.Apple)) { } // pipe acts as a way to add them together. In this case, with Has, it acts as an 'or'.
 */
