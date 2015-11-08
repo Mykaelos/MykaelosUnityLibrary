@@ -28,7 +28,13 @@ public static class EnumerationExtensions {
     //appends a value
     public static T Add<T>(this Enum type, T value) {
         try {
-            return (T)(object)(((int)(object)type | (int)(object)value));
+            int typeInt = (int)(object)type;
+            int valueInt = (int)(object)value;
+            int output = typeInt | valueInt;
+            //Because of the way this extension works, BESURE TO SET YOUR ENUM VARIABLE ON THE RETURN OF THIS METHOD.
+            //It cannot be set in here because the output cannot be converted to the Enum type.
+
+            return (T)(object)output;
         }
         catch (Exception ex) {
             throw new ArgumentException(string.Format("Could not append value from enumerated type '{0}'.", typeof(T).Name), ex);
@@ -38,7 +44,13 @@ public static class EnumerationExtensions {
     //completely removes the value
     public static T Remove<T>(this Enum type, T value) {
         try {
-            return (T)(object)(((int)(object)type & ~(int)(object)value));
+            int typeInt = (int)(object)type;
+            int valueInt = (int)(object)value;
+            int output = typeInt & ~valueInt;
+            //Because of the way this extension works, BESURE TO SET YOUR ENUM VARIABLE ON THE RETURN OF THIS METHOD.
+            //It cannot be set in here because the output cannot be converted to the Enum type.
+
+            return (T)(object)output;
         }
         catch (Exception ex) {
             throw new ArgumentException(string.Format("Could not remove value from enumerated type '{0}'.", typeof(T).Name), ex);
