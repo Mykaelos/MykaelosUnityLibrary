@@ -1,4 +1,4 @@
-Shader "Sprites/Diffuse/ZWrite"
+Shader "Sprites/Default/ZWrite"
 {
 	Properties
 	{
@@ -11,9 +11,9 @@ Shader "Sprites/Diffuse/ZWrite"
 	{
 		Tags
 		{ 
-			"Queue"="AlphaTest" 
+			"Queue"="Transparent" 
 			"IgnoreProjector"="True" 
-			"RenderType"="TransparentCutout"
+			"RenderType"="TransparentCutout" 
 			"PreviewType"="Plane"
 			"CanUseSpriteAtlas"="True"
 		}
@@ -21,9 +21,9 @@ Shader "Sprites/Diffuse/ZWrite"
         ZTest LEqual
 		Cull Off
 		Lighting Off
-        ZWrite On
-		Blend SrcAlpha OneMinusSrcAlpha
-
+		ZWrite On
+		Blend One OneMinusSrcAlpha
+        
 		Pass
 		{
 		CGPROGRAM
@@ -62,16 +62,25 @@ Shader "Sprites/Diffuse/ZWrite"
 			}
 
 			sampler2D _MainTex;
+			sampler2D _AlphaTex;
+			float _AlphaSplitEnabled;
+
+			fixed4 SampleSpriteTexture (float2 uv)
+			{
+				fixed4 color = tex2D (_MainTex, uv);
+				if (_AlphaSplitEnabled)
+					color.a = tex2D (_AlphaTex, uv).r;
+
+				return color;
+			}
 
 			fixed4 frag(v2f IN) : SV_Target
 			{
-				fixed4 c = tex2D(_MainTex, IN.texcoord) * IN.color;
+				fixed4 c = SampleSpriteTexture (IN.texcoord) * IN.color;
 				c.rgb *= c.a;
 				return c;
 			}
 		ENDCG
 		}
-
-		UsePass "Legacy Shaders/VertexLit/SHADOWCASTER"
 	}
 }
