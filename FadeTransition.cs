@@ -7,7 +7,7 @@ public class FadeTransition : MonoBehaviour {
     private int DrawDepth = -1000; //forces the texture to be drawn last
     private Color OpaqueColor = Color.black;
     private Color TransparentColor = Color.clear;
-    private Color CurrentColor;
+    private Color CurrentColor = Color.clear;
     private float Direction; //-1 is fade out, 1 is fade in
     private float CurrentDuration;
     private float Duration;
@@ -30,6 +30,10 @@ public class FadeTransition : MonoBehaviour {
 
     public static void SetOpaque(bool opaque) {
         Instance.CurrentColor = opaque ? Instance.OpaqueColor : Instance.TransparentColor;
+    }
+
+    public static bool IsFaded() {
+        return Instance.CurrentColor.Equals(Instance.OpaqueColor);
     }
 
 

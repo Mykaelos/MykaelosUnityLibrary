@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class EventChain : MonoBehaviour {
@@ -9,13 +8,18 @@ public class EventChain : MonoBehaviour {
     public bool IsRunning = true;
     public bool IsFinished = false;
 
+    private static EventChain Instance;
+    private static EventChain GetInstance() {
+        if(Instance == null) {
+            Instance = new GameObject("EventChain").AddComponent<EventChain>();
+        }
 
-    private static EventChain CreateInstance() {
-        return (new GameObject("EventChain")).AddComponent<EventChain>();
+        return Instance;
     }
 
+
     public static EventChain Begin(List<EventLink> chain) {
-        EventChain instance = CreateInstance();
+        EventChain instance = GetInstance();
         instance.Chain = chain;
         instance.IsRunning = true;
         instance.IsFinished = false;
