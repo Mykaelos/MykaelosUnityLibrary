@@ -13,74 +13,48 @@ Shader "Sprites/Default/ZWrite"
 		{ 
 			"Queue"="Transparent" 
 			"IgnoreProjector"="True" 
-			"RenderType"="TransparentCutout" 
+			"RenderType"="Transparent" //TransparentCutout
 			"PreviewType"="Plane"
 			"CanUseSpriteAtlas"="True"
 		}
         
-        ZTest LEqual
+        //ZTest LEqual
 		Cull Off
 		Lighting Off
 		ZWrite On
 		Blend One OneMinusSrcAlpha
-        
-		Pass
-		{
+
 		CGPROGRAM
-			#pragma vertex vert
-			#pragma fragment frag
-			#pragma multi_compile _ PIXELSNAP_ON
-			#include "UnityCG.cginc"
+		#pragma surface surf Lambert vertex:vert nofog keepalpha
+		#pragma multi_compile _ PIXELSNAP_ON
+
+		sampler2D _MainTex;
+		fixed4 _Color;
+
+		struct Input
+		{
+			float2 uv_MainTex;
+			fixed4 color;
+		};
+		
+		void vert (inout appdata_full v, out Input o)
+		{
+			#if defined(PIXELSNAP_ON)
+			v.vertex = UnityPixelSnap (v.vertex);
+			#endif
 			
-			struct appdata_t
-			{
-				float4 vertex   : POSITION;
-				float4 color    : COLOR;
-				float2 texcoord : TEXCOORD0;
-			};
-
-			struct v2f
-			{
-				float4 vertex   : SV_POSITION;
-				fixed4 color    : COLOR;
-				half2 texcoord  : TEXCOORD0;
-			};
-			
-			fixed4 _Color;
-
-			v2f vert(appdata_t IN)
-			{
-				v2f OUT;
-				OUT.vertex = mul(UNITY_MATRIX_MVP, IN.vertex);
-				OUT.texcoord = IN.texcoord;
-				OUT.color = IN.color * _Color;
-				#ifdef PIXELSNAP_ON
-				OUT.vertex = UnityPixelSnap (OUT.vertex);
-				#endif
-
-				return OUT;
-			}
-
-			sampler2D _MainTex;
-			sampler2D _AlphaTex;
-			float _AlphaSplitEnabled;
-
-			fixed4 SampleSpriteTexture (float2 uv)
-			{
-				fixed4 color = tex2D (_MainTex, uv);
-				if (_AlphaSplitEnabled)
-					color.a = tex2D (_AlphaTex, uv).r;
-
-				return color;
-			}
-
-			fixed4 frag(v2f IN) : SV_Target
-			{
-				fixed4 c = SampleSpriteTexture (IN.texcoord) * IN.color;
-				c.rgb *= c.a;
-				return c;
-			}
-		ENDCG
+			UNITY_INITIALIZE_OUTPUT(Input, o);
+			o.color = v.color * _Color;
 		}
+
+		void surf (Input IN, inout SurfaceOutput o)
+		{
+			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * IN.color;
+			o.Albedo = c.rgb * c.a;
+			o.Alpha = c.a;
+		}
+		ENDCG
 	}
+
+Fallback "Transparent/VertexLit"
 }

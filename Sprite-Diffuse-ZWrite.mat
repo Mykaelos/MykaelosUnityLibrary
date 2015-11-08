@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Sprite-Diffuse-ZWrite
-  m_Shader: {fileID: 4800000, guid: ff1bb8eb2bfdf4941b492f84634b016d, type: 3}
+  m_Shader: {fileID: 10800, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _ALPHATEST_ON
   m_LightmapFlags: 5
   m_CustomRenderQueue: 3000
