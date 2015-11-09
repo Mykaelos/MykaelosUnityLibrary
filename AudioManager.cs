@@ -1,14 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
-public class AudioManager : MonoBehaviour {
-    private static Dictionary<string, AudioClip> AudioClips = new Dictionary<string, AudioClip>() {
-        //Music
-        //SFX
-        { "Coin", Resources.Load<AudioClip>("Audio/Coin") },
-        { "Shotgun", Resources.Load<AudioClip>("Audio/ShotgunOG") }
-    };
+public class AudioManager {
+    private static Dictionary<string, AudioClip> AudioClips = new Dictionary<string, AudioClip>();
     
     #region Privates
     private static GameObject _MusicObject;
@@ -35,6 +29,13 @@ public class AudioManager : MonoBehaviour {
     public static float SoundVolume = 0.6f;
 
 
+    public static void SetTracks(Dictionary<string, string> tracks) {
+        AudioClips = new Dictionary<string, AudioClip>();
+        foreach (var track in tracks) {
+            AudioClips.Add(track.Key, Resources.Load<AudioClip>(track.Value));
+        }
+    }
+
     public static void PlayMusic(string audioName, bool repeat, bool restart) {
         AudioClip audioClip = null;
         if (AudioClips.TryGetValue(audioName, out audioClip)) {
@@ -49,29 +50,29 @@ public class AudioManager : MonoBehaviour {
         }
     }
 
-    public static void PlaySound(string audioName, float pitch = 1) {
-        PlaySound(audioName, Camera.main.transform.position, pitch);
+    public static void PlaySound(string audioName, float pitch = 1, float volumeMultiplier = 1) {
+        PlaySound(audioName, Camera.main.transform.position, pitch, volumeMultiplier);
     }
 
-    public static void PlaySound(string audioName, Vector3 position, float pitch = 1) {
+    public static void PlaySound(string audioName, Vector3 position, float pitch = 1, float volumeMultiplier = 1) {
         AudioClip audioClip = null;
         if (AudioClips.TryGetValue(audioName, out audioClip)) {
             if (!IsSoundMuted) {
                 GameObject tempObject = (GameObject)GameObject.Instantiate(TempAudioSourcePrefab, position, Quaternion.identity);
-                PlaySound(audioName, tempObject.GetComponent<AudioSource>(), pitch);
-                Destroy(tempObject, audioClip.length);
+                PlaySound(audioName, tempObject.GetComponent<AudioSource>(), pitch, volumeMultiplier);
+                GameObject.Destroy(tempObject, audioClip.length);
             }
         }
     }
 
-    public static void PlaySound(string audioName, AudioSource source, float pitch = 1) {
+    public static void PlaySound(string audioName, AudioSource source, float pitch = 1, float volumeMultiplier = 1) {
         AudioClip audioClip = null;
         if (AudioClips.TryGetValue(audioName, out audioClip)) {
             if (!IsSoundMuted) {
                 source.clip = audioClip;
                 source.loop = false;
                 source.mute = IsSoundMuted;
-                source.volume = SoundVolume;
+                source.volume = SoundVolume * volumeMultiplier;
                 source.pitch = pitch;
                 source.Play();
             }
@@ -107,7 +108,7 @@ public class AudioManager : MonoBehaviour {
         if (_MusicObject == null) {
             _MusicObject = new GameObject("MusicSource");
             _MusicSource = _MusicObject.AddComponent<AudioSource>();
-            DontDestroyOnLoad(_MusicObject);
+            GameObject.DontDestroyOnLoad(_MusicObject);
         }
         else if (MusicSource == null) {
             _MusicSource = _MusicObject.GetComponent<AudioSource>();
