@@ -18,7 +18,7 @@ public class FadeTransition : MonoBehaviour {
     public const float FadeIn = -1; //fade to clear
 
 
-    public static void Fade(float direction, float duration, Color color, Action finishedCallback) {
+    public static void Fade(float direction, float duration, Color color, Action finishedCallback = null) {
         Instance.Direction = direction;
         Instance.Duration = duration;
 
