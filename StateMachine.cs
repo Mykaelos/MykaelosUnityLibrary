@@ -6,12 +6,14 @@ public class StateMachine : MonoBehaviour {
     StateMachineState CurrentState;
 
 
-    public static StateMachine Initialize(GameObject gameObject, List<StateMachineState> states) {
+    public static StateMachine Initialize(GameObject gameObject, List<StateMachineState> states, string initialState) {
         StateMachine machine = gameObject.AddComponent<StateMachine>();
 
         foreach(var state in states) {
             machine.States.Add(state.Name, state);
         }
+
+        machine.SwitchState(initialState);
 
         return machine;
     }
@@ -35,11 +37,13 @@ public class StateMachine : MonoBehaviour {
             return;
         }
 
-        if(CurrentState != null) {
+        if(CurrentState != null && CurrentState.End != null) {
             CurrentState.End();
         }
 
         CurrentState = nextState;
-        CurrentState.Start();
+        if(CurrentState.Start != null) {
+            CurrentState.Start();
+        }
     }
 }
