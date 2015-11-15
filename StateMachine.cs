@@ -4,6 +4,9 @@ using UnityEngine;
 public class StateMachine : MonoBehaviour {
     Dictionary<string, StateMachineState> States = new Dictionary<string, StateMachineState>();
     StateMachineState CurrentState;
+    public string CurrentStateName {
+        get { return CurrentState == null ? "" : CurrentState.Name; }
+    }
 
 
     public static StateMachine Initialize(GameObject gameObject, List<StateMachineState> states, string initialState) {

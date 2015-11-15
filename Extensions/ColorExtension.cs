@@ -3,7 +3,7 @@
 
 public static class ColorExtension {
 
-
+    //alpha is between 0 and 1
     public static Color SetA(this Color color, float a) {
         //Color temp = new Color(color.r, color.g, color.b, a);
         Color temp = color;
