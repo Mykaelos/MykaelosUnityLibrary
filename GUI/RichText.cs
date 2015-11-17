@@ -23,6 +23,10 @@ public static class RichTextExtension {
     public static string Bold(this string self) {
         return string.Format(BoldFormat, self);
     }
+
+    public static string NewLine(this string self) {
+        return string.Format("{0}\n", self);
+    }
 }
 
 /** http://docs.unity3d.com/Manual/StyledText.html
