@@ -8,6 +8,7 @@ public static class RichTextExtension {
     private static string BoldFormat = "<b>{0}</b>";
 
 
+    //color can be the color name from below (red), or just the hex value (#ff0000)
     public static string Color(this string self, string color) {
         return string.Format(ColorFormat, color, self);
     }

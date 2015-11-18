@@ -8,10 +8,11 @@ public class Timer {
     public bool HasFired = false;
 
 
-    public Timer(float delay = 1, bool fireOnce = false) {
+    public Timer(float delay = 1, bool fireOnce = false, bool fireImmediately = false) {
         Delay = delay;
         FireOnce = fireOnce;
-        Reset();
+
+        Last = fireImmediately ? Time.time - Delay : Time.time;
     }
 
     public bool Check() {
