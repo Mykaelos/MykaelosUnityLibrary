@@ -59,15 +59,18 @@ public class AudioManager {
         }
     }
 
-    public static void PlaySound(string audioName, float pitch = 1, float volumeMultiplier = 1) {
-        PlaySound(audioName, Camera.main.transform.position, pitch, volumeMultiplier);
+    public static void PlaySound(string audioName, float pitch = 1, float volumeMultiplier = 1, bool dontDestoryOnLoad = false) {
+        PlaySound(audioName, Camera.main.transform.position, pitch, volumeMultiplier, dontDestoryOnLoad);
     }
 
-    public static void PlaySound(string audioName, Vector3 position, float pitch = 1, float volumeMultiplier = 1) {
+    public static void PlaySound(string audioName, Vector3 position, float pitch = 1, float volumeMultiplier = 1, bool dontDestoryOnLoad = false) {
         AudioClip audioClip = null;
         if (AudioClips.TryGetValue(audioName, out audioClip)) {
             if (!IsSoundMuted) {
                 GameObject tempObject = (GameObject)GameObject.Instantiate(TempAudioSourcePrefab, position, Quaternion.identity);
+                if(dontDestoryOnLoad) {
+                    GameObject.DontDestroyOnLoad(tempObject);
+                }
                 PlaySound(audioName, tempObject.GetComponent<AudioSource>(), pitch, volumeMultiplier);
                 GameObject.Destroy(tempObject, audioClip.length);
             }
@@ -127,7 +130,7 @@ public class AudioManager {
 
     private static GameObject GenerateTempAudioSourcePrefab() {
         _TempAudioSourcePrefab = new GameObject("TempAudioSource");
-        TempAudioSourcePrefab.AddComponent<AudioSource>();
+        _TempAudioSourcePrefab.AddComponent<AudioSource>();
         return _TempAudioSourcePrefab;
     }
 }
