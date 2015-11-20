@@ -36,6 +36,15 @@ public class AudioManager {
         }
     }
 
+    public static void AddTracks(Dictionary<string, string> tracks) {
+        AudioClips = AudioClips ?? new Dictionary<string, AudioClip>();
+        foreach (var track in tracks) {
+            if(!AudioClips.ContainsKey(track.Key)) {
+                AudioClips.Add(track.Key, Resources.Load<AudioClip>(track.Value));
+            }
+        }
+    }
+
     public static void PlayMusic(string audioName, bool repeat, bool restart) {
         AudioClip audioClip = null;
         if (AudioClips.TryGetValue(audioName, out audioClip)) {

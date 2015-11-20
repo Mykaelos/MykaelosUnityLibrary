@@ -12,7 +12,7 @@ public class Timer {
         Delay = delay;
         FireOnce = fireOnce;
 
-        Last = fireImmediately ? Time.time - Delay : Time.time;
+        Last = fireImmediately ? Time.time - Delay - 0.1f: Time.time;
     }
 
     public bool Check() {
@@ -34,5 +34,13 @@ public class Timer {
 
     public void Reset() {
         Last = Time.time;
+    }
+
+    public void ResetFireOnce() {
+        HasFired = false;
+    }
+
+    public void FireNextImmediately() {
+        Last = Time.time - Delay - 0.1f;
     }
 }
