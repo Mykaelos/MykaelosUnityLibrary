@@ -43,4 +43,9 @@ public class Timer {
     public void FireNextImmediately() {
         Last = Time.time - Delay - 0.1f;
     }
+
+    public float DurationUntilNext(float delay = 0) {
+        delay = delay == 0 ? Delay : delay;
+        return Mathf.Max(Time.time - (Last + delay), 0);
+    }
 }

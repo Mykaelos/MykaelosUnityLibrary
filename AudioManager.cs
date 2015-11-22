@@ -46,16 +46,23 @@ public class AudioManager {
     }
 
     public static void PlayMusic(string audioName, bool repeat, bool restart) {
+        PlayMusic(audioName, MusicSource, repeat, restart);
+    }
+
+    public static void PlayMusic(string audioName, AudioSource source, bool repeat, bool restart) {
         AudioClip audioClip = null;
         if (AudioClips.TryGetValue(audioName, out audioClip)) {
-            if (!restart && MusicSource.isPlaying && MusicSource.clip != null && MusicSource.clip.name.Equals(audioClip.name)) {
+            AudioSource musicSource = source ?? MusicSource;
+            musicSource.loop = repeat;
+
+            if (!restart && musicSource.isPlaying && musicSource.clip != null && musicSource.clip.name.Equals(audioClip.name)) {
                 return;
             }
-            MusicSource.clip = audioClip;
-            MusicSource.loop = repeat;
-            MusicSource.mute = IsMusicMuted;
-            MusicSource.volume = MusicVolume;
-            MusicSource.Play();
+            musicSource.clip = audioClip;
+            musicSource.mute = IsMusicMuted;
+            musicSource.volume = MusicVolume;
+            musicSource.pitch = 1f;
+            musicSource.Play();
         }
     }
 
@@ -91,8 +98,9 @@ public class AudioManager {
         }
     }
 
-    public static void StopMusic() {
-        MusicSource.Stop();
+    public static void StopMusic(AudioSource source = null) {
+        AudioSource musicSource = source ?? MusicSource;
+        musicSource.Stop();
     }
 
     public static void StopSound(AudioSource source) {
