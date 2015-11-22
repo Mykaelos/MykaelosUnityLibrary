@@ -46,6 +46,6 @@ public class Timer {
 
     public float DurationUntilNext(float delay = 0) {
         delay = delay == 0 ? Delay : delay;
-        return Mathf.Max(Time.time - (Last + delay), 0);
+        return Mathf.Max((Last + delay) - Time.time, 0);
     }
 }
