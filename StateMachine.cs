@@ -23,16 +23,24 @@ public class StateMachine : MonoBehaviour {
 
     void Update() {
         if(CurrentState != null) {
-            string nextStateName = CurrentState.Check();
-            if(nextStateName != null) {
-                SwitchState(nextStateName);
+            if(CurrentState.Check != null) {
+                string nextStateName = CurrentState.Check();
+                if (nextStateName != null) {
+                    SwitchState(nextStateName);
+                }
             }
 
-            CurrentState.Update();
+            if(CurrentState.Update != null) {
+                CurrentState.Update();
+            }
         }
     }
 
     public void SwitchState(string nextStateName) {
+        if (CurrentStateName.Equals(nextStateName)) {
+            return;
+        }
+
         StateMachineState nextState = States.Get(nextStateName);
 
         if(nextState == null) {

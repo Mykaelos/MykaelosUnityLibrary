@@ -54,14 +54,14 @@ public class AudioManager {
         if (AudioClips.TryGetValue(audioName, out audioClip)) {
             AudioSource musicSource = source ?? MusicSource;
             musicSource.loop = repeat;
+            musicSource.mute = IsMusicMuted;
+            musicSource.volume = MusicVolume;
+            musicSource.pitch = 1f;
 
             if (!restart && musicSource.isPlaying && musicSource.clip != null && musicSource.clip.name.Equals(audioClip.name)) {
                 return;
             }
             musicSource.clip = audioClip;
-            musicSource.mute = IsMusicMuted;
-            musicSource.volume = MusicVolume;
-            musicSource.pitch = 1f;
             musicSource.Play();
         }
     }
