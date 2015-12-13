@@ -2,6 +2,11 @@
 using System.Collections;
 using UnityEngine.UI;
 
+/**
+ * FloatingText - GameObject, Rigidbody2D
+ *  - Canvas - CanvasGroup
+ *      - Text
+ */
 public class FloatingText : MonoBehaviour {
     private static GameObject FloatingTextPrefab;
     private Text Text;
@@ -24,7 +29,7 @@ public class FloatingText : MonoBehaviour {
         prefab.GetComponent<FloatingText>().Setup(text, color, duration, velocity);
     }
 
-    public void Setup(string text, Color color, float duration, Vector2 velocity) {
+    void Setup(string text, Color color, float duration, Vector2 velocity) {
         Text.text = text;
         Text.color = color;
         Duration = duration;
