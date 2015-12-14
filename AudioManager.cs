@@ -71,30 +71,36 @@ public class AudioManager {
     }
 
     public static void PlaySound(string audioName, Vector3 position, float pitch = 1, float volumeMultiplier = 1, bool dontDestoryOnLoad = false) {
-        AudioClip audioClip = null;
-        if (AudioClips.TryGetValue(audioName, out audioClip)) {
-            if (!IsSoundMuted) {
-                GameObject tempObject = (GameObject)GameObject.Instantiate(TempAudioSourcePrefab, position, Quaternion.identity);
-                if(dontDestoryOnLoad) {
-                    GameObject.DontDestroyOnLoad(tempObject);
-                }
-                PlaySound(audioName, tempObject.GetComponent<AudioSource>(), pitch, volumeMultiplier);
-                GameObject.Destroy(tempObject, audioClip.length);
+        AudioClip audioClip = GetOrLoadClip(audioName);
+        if(audioClip == null) {
+            Debug.Log("AudioManager: Could not find clip \"" + audioName + "\"");
+            return;
+        }
+        
+        if (!IsSoundMuted) {
+            GameObject tempObject = (GameObject)GameObject.Instantiate(TempAudioSourcePrefab, position, Quaternion.identity);
+            if(dontDestoryOnLoad) {
+                GameObject.DontDestroyOnLoad(tempObject);
             }
+            PlaySound(audioName, tempObject.GetComponent<AudioSource>(), pitch, volumeMultiplier);
+            GameObject.Destroy(tempObject, audioClip.length);
         }
     }
 
     public static void PlaySound(string audioName, AudioSource source, float pitch = 1, float volumeMultiplier = 1) {
-        AudioClip audioClip = null;
-        if (AudioClips.TryGetValue(audioName, out audioClip)) {
-            if (!IsSoundMuted) {
-                source.clip = audioClip;
-                source.loop = false;
-                source.mute = IsSoundMuted;
-                source.volume = SoundVolume * volumeMultiplier;
-                source.pitch = pitch;
-                source.Play();
-            }
+        AudioClip audioClip = GetOrLoadClip(audioName);
+        if (audioClip == null) {
+            Debug.Log("AudioManager: Could not find clip \"" + audioName + "\"");
+            return;
+        }
+
+        if (!IsSoundMuted) {
+            source.clip = audioClip;
+            source.loop = false;
+            source.mute = IsSoundMuted;
+            source.volume = SoundVolume * volumeMultiplier;
+            source.pitch = pitch;
+            source.Play();
         }
     }
 
@@ -122,6 +128,15 @@ public class AudioManager {
 
     public static void ToggleSoundMute() {
         IsSoundMuted = !IsSoundMuted;
+    }
+
+    private static AudioClip GetOrLoadClip(string audioName) {
+        AudioClip clip = AudioClips.Get(audioName);
+        if (clip == null) {
+            clip = Resources.Load<AudioClip>(audioName);
+            AudioClips.Add(audioName, clip);
+        }
+        return clip;
     }
 
     private static AudioSource GenerateMusicSource() {
