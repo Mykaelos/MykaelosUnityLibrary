@@ -32,4 +32,12 @@ public static class TransformExtensions {
     public static Transform AddY(this Transform transform, float y) {
         return transform.SetY(transform.position.y + y);
     }
+
+    public static RectTransform RectTransform(this Transform transform) {
+        return (RectTransform)transform;
+    }
+
+    public static Rect Rect(this Transform transform) {
+        return ((RectTransform)transform).rect;
+    }
 }

@@ -9,4 +9,10 @@ public static class ArrayExtension {
 
         return array[Random.Range(0, array.Length)];
     }
+
+    public static void Swap<T>(this T[] array, int index1, int index2) {
+        T temp = array[index1];
+        array[index1] = array[index2];
+        array[index2] = temp;
+    }
 }
