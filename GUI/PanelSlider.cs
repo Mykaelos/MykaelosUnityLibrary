@@ -36,6 +36,9 @@ public class PanelSlider : MonoBehaviour {
     public void OnToggle() {
         Direction *= -1;
         Messenger.Fire(gameObject.name + ".PanelSlider.AfterToggle", new object[] { Direction });
+        if(Direction > 0) {
+            Messenger.Fire(gameObject.name + ".PanelSlider.OnShow");
+        }
     }
 
     private void MessageToggle(object[] args) {
