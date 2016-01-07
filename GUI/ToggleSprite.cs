@@ -18,7 +18,7 @@ public class ToggleSprite : MonoBehaviour {
     private Image Image;
 
 
-    void Awake() {
+    protected virtual void Awake() {
         Image = GetComponent<Image>();
     }
 

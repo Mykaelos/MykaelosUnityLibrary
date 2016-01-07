@@ -21,10 +21,6 @@ public static class StringExtensions {
     }
 
     public static bool IsNullOrEmpty(this string self) {
-        if(self == null) {
-            return true;
-        }
-
-        return self.Length == 0;
+        return string.IsNullOrEmpty(self);
     }
 }
