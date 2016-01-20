@@ -50,20 +50,23 @@ public class AudioManager {
     }
 
     public static void PlayMusic(string audioName, AudioSource source, bool repeat, bool restart) {
-        AudioClip audioClip = null;
-        if (AudioClips.TryGetValue(audioName, out audioClip)) {
-            AudioSource musicSource = source ?? MusicSource;
-            musicSource.loop = repeat;
-            musicSource.mute = IsMusicMuted;
-            musicSource.volume = MusicVolume;
-            musicSource.pitch = 1f;
-
-            if (!restart && musicSource.isPlaying && musicSource.clip != null && musicSource.clip.name.Equals(audioClip.name)) {
-                return;
-            }
-            musicSource.clip = audioClip;
-            musicSource.Play();
+        AudioClip audioClip = GetOrLoadClip(audioName);
+        if (audioClip == null) {
+            Debug.Log("AudioManager: Could not find clip \"" + audioName + "\"");
+            return;
         }
+
+        AudioSource musicSource = source ?? MusicSource;
+        musicSource.loop = repeat;
+        musicSource.mute = IsMusicMuted;
+        musicSource.volume = MusicVolume;
+        musicSource.pitch = 1f;
+
+        if (!restart && musicSource.isPlaying && musicSource.clip != null && musicSource.clip.name.Equals(audioClip.name)) {
+            return;
+        }
+        musicSource.clip = audioClip;
+        musicSource.Play();
     }
 
     public static void PlaySound(string audioName, float pitch = 1, float volumeMultiplier = 1, bool dontDestoryOnLoad = false) {
