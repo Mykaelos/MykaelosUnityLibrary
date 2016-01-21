@@ -13,6 +13,10 @@ public class CSVReader {
     public Dictionary<string, int> HeaderMap = new Dictionary<string, int>();
     public List<List<string>> Data = new List<List<string>>();
 
+    public int RowCount {
+        get { return Data.Count; }
+    }
+
 
     public CSVReader(string fileText) {
         string[] rows = fileText.Split(lineDelimiter);
