@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 
 [Serializable]
-public class SerializableDictionary<K, V> {
+public class SerializableDictionary<K, V> : SavableData {
     public List<SerializableDictionaryPair<K, V>> List;
 
 
@@ -16,6 +16,9 @@ public class SerializableDictionary<K, V> {
 
     public void PrepareDictionary() {
         _Dictionary = new Dictionary<K, int>();
+        if(List == null) {
+            List = new List<SerializableDictionaryPair<K, V>>();
+        }
         for(int i = 0; i < List.Count; i++) {
             _Dictionary.Add(List[i].Key, i);
         }
@@ -42,14 +45,27 @@ public class SerializableDictionary<K, V> {
         Dictionary.Remove(key);
     }
 
-    public V Get(K key) {
+    public V Get(K key, V defaultValue = default(V)) {
         int index = Dictionary.Get(key, -1);
         if(index == -1) {
-            return default(V);
+            return defaultValue;
         }
 
         return List[index].Value;
     }
+
+    public bool Has(K key) {
+        int index = Dictionary.Get(key, -1);
+        return index != -1;
+    }
+
+    #region SavableData
+    public override bool HasData() {
+        return List != null && List.Count > 0;
+    }
+    public override void PrepareDataAfterLoad() { }
+    public override void PrepareDataForSave() { }
+    #endregion
 }
 
 [Serializable]
