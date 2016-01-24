@@ -48,10 +48,11 @@ public class CSVReader {
         if (HeaderMap.TryGetValue(name, out col)) {
             return col;
         }
+        Debug.Log("CSVReader: Failed to find Column " + name);
         return -1;
     }
 
-    public string GetString(int row, string field) {
+    public string GetString(int row, string field, string defaultValue = default(string)) {
         int col = GetCol(field);
         if (col == -1 || row < 0 || row >= Data.Count) {
             return null;
@@ -60,34 +61,34 @@ public class CSVReader {
         return Data[row][col];
     }
 
-    public int? GetInt(int row, string field) {
+    public int GetInt(int row, string field, int defaultValue = default(int)) {
         string valueString = GetString(row, field);
         if (valueString == null || string.Empty.Equals(valueString)) {
-            return null;
+            return defaultValue;
         }
 
-        int? value = null;
+        int value = defaultValue;
         try {
             value = int.Parse(valueString);
         }
         catch (System.Exception e) {
-            Debug.Log("BAD INT.PARSE ON " + valueString + "\n" + e.Message);
+            Debug.Log("CSVReader: BAD INT.PARSE ON " + valueString + "\n" + e.Message);
         }
         return value;
     }
 
-    public float? GetFloat(int row, string field) {
+    public float GetFloat(int row, string field, float defaultValue = default(float)) {
         string valueString = GetString(row, field);
         if (valueString == null || string.Empty.Equals(valueString)) {
-            return null;
+            return defaultValue;
         }
 
-        float? value = null;
+        float value = defaultValue;
         try {
             value = float.Parse(valueString);
         }
         catch (System.Exception e) {
-            Debug.Log("BAD FLOAT.PARSE ON " + valueString + "\n" + e.Message);
+            Debug.Log("CSVReader: BAD FLOAT.PARSE ON " + valueString + "\n" + e.Message);
         }
         return value;
     }

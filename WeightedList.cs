@@ -10,6 +10,8 @@ public class WeightedList<T> {
     //http://stackoverflow.com/questions/3120035/indexing-count-of-buckets/3120179#3120179
     //http://stackoverflow.com/questions/4511331/randomly-selecting-an-element-from-a-weighted-list
 
+    public WeightedList() { }
+
     public WeightedList(Dictionary<T, float> items) : this(new List<T>(items.Keys), new List<float>(items.Values)) { }
 
     public WeightedList(List<T> items, List<float> weights) {
@@ -56,6 +58,7 @@ public class WeightedList<T> {
             bottomWeight += Weights[i];
         }
 
+        Debug.Log("WeightedList:RandomIndexByWeight failed to pick item by weight.");
         return -1; //no idea how you got here, but you didn't find anything.
     }
 
