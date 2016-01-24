@@ -3,7 +3,7 @@ using System.Collections;
 
 public static class StringExtensions {
 
-    public static Color HexAsColor(this string self) { // "#RRGGBBAA"
+    public static Color HexAsColor(this string self) { // "#RRGGBBAA" or "RRGGBBAA" or "RRGGBB"
         try {
             int startIndex = self.IndexOf("#") == 0 ? 1 : 0; //looking for initial #
 
