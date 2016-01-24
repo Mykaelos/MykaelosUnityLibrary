@@ -1,7 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
+[Serializable]
 public struct Point : System.IEquatable<Point> {
     public int X, Y;
+
 
     public Point(int x, int y) {
         X = x;
@@ -10,6 +13,10 @@ public struct Point : System.IEquatable<Point> {
 
     public Vector3 VectorXZ() {
         return new Vector3(X, 0, Y);
+    }
+
+    public Vector2 Vector2() {
+        return new Vector2(X, Y);
     }
 
     public Point Normalize() {
@@ -31,6 +38,14 @@ public struct Point : System.IEquatable<Point> {
 
     public override int GetHashCode() {
         return X.GetHashCode() ^ Y.GetHashCode();
+    }
+
+    public static implicit operator Vector2(Point point) {
+        return point.Vector2();
+    }
+
+    public static implicit operator Point(Vector2 vector2) {
+        return new Point((int)vector2.x, (int)vector2.y);
     }
 
     public static bool operator ==(Point term1, Point term2) {
