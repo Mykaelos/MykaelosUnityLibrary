@@ -14,6 +14,8 @@ public class SerializableDictionary<K, V> : SavableData {
         get { if (_Dictionary == null) { PrepareDictionary(); } return _Dictionary; }
     }
 
+    public SerializableDictionary() { }
+
     public void PrepareDictionary() {
         _Dictionary = new Dictionary<K, int>();
         if(List == null) {
