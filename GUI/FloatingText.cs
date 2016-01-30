@@ -3,8 +3,8 @@ using System.Collections;
 using UnityEngine.UI;
 
 /**
- * FloatingText - GameObject, Rigidbody2D
- *  - Canvas - CanvasGroup
+ * FloatingText - GameObject, Rigidbody2D, FloatingText
+ *  - Canvas - CanvasGroup, Canvas World Space (scale: 0.016)
  *      - Text
  */
 public class FloatingText : MonoBehaviour {

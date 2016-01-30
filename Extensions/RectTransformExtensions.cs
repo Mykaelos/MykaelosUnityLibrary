@@ -1,10 +1,7 @@
 ﻿using UnityEngine;
-using System;
-using System.Collections;
 
 //from http://orbcreation.com/orbcreation/page.orb?1099
-public static class RectTransformExtensions
-{
+public static class RectTransformExtensions {
 	public static void SetDefaultScale(this RectTransform trans) {
 	    trans.localScale = new Vector3(1, 1, 1);
 	}
