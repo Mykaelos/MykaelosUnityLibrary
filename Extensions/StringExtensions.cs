@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public static class StringExtensions {
 
@@ -22,5 +23,18 @@ public static class StringExtensions {
 
     public static bool IsNullOrEmpty(this string self) {
         return string.IsNullOrEmpty(self);
+    }
+
+    public static List<string> SplitAndTrim(this string self) {
+        if(self == null || self.Length == 0) {
+            Debug.Log("StringExtensions.SplitAndTrim: String was empty!");
+            return new List<string>();
+        }
+
+        var list = new List<string>(self.Split(','));
+        for (int i = 0; i < list.Count; i++) {
+            list[i] = list[i].Trim();
+        }
+        return list;
     }
 }
