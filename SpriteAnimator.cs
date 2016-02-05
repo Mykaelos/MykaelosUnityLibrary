@@ -18,7 +18,9 @@ public class SpriteAnimator : MonoBehaviour {
     }
 
     public void Start() {
-        Renderer.sprite = Sprites[CurrentFrame];
+        if (Sprites != null && Sprites.Count > 0) {
+            Renderer.sprite = Sprites[CurrentFrame];
+        }
     }
 
     public void FixedUpdate() {
