@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-
+using UnityEngine;
 
 public delegate void Callback(object[] args);
 
@@ -23,6 +23,7 @@ public class Messenger {
     }
 
     public static void Fire(string message, object[] args = null) {
+        //Debug.Log("Messenger.Fire: " + message);
         List<Callback> group = null;
         if (Listeners.TryGetValue(message, out group)) {
             List<Callback> tempList = new List<Callback>(group); //protects from removing callbacks during fire
