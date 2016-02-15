@@ -133,7 +133,7 @@ public class CSVReader {
                     break;
             }
         }
-        colList.Add(currentCol.ToString());
+        colList.Add(currentCol.ToString().ConvertNewlineStringToChar());
 
         return colList;
     }
