@@ -37,17 +37,4 @@ public static class StringExtensions {
         }
         return list;
     }
-
-    public static string ConvertNewlineStringToChar(this string self) {
-        //string tempString = self;
-        int newLineIndex = self.IndexOf("\n");
-        while(newLineIndex != -1) {
-            self = self.Remove(newLineIndex, 2);
-            self = self.Insert(newLineIndex, System.Environment.NewLine);
-
-            newLineIndex = self.IndexOf("\n");
-        }
-
-        return self;
-    }
 }

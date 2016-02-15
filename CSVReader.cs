@@ -119,7 +119,7 @@ public class CSVReader {
                         currentCol.Append(currentChar);
                     }
                     else {
-                        colList.Add(currentCol.ToString());
+                        colList.Add(ConvertNewlineStringToChar(currentCol.ToString()));
                         currentCol = new StringBuilder();
                     }
                     break;
@@ -133,8 +133,20 @@ public class CSVReader {
                     break;
             }
         }
-        colList.Add(currentCol.ToString().ConvertNewlineStringToChar());
+        colList.Add(ConvertNewlineStringToChar(currentCol.ToString()));
 
         return colList;
+    }
+
+    public string ConvertNewlineStringToChar(string self) {
+        int newLineIndex = self.IndexOf("\\n");
+        while (newLineIndex != -1) {
+            self = self.Remove(newLineIndex, 2);
+            self = self.Insert(newLineIndex, System.Environment.NewLine);
+
+            newLineIndex = self.IndexOf("\\n");
+        }
+
+        return self;
     }
 }
