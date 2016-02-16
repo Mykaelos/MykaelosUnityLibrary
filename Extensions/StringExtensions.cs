@@ -25,13 +25,13 @@ public static class StringExtensions {
         return string.IsNullOrEmpty(self);
     }
 
-    public static List<string> SplitAndTrim(this string self) {
-        if(self == null || self.Length == 0) {
+    public static List<string> SplitAndTrim(this string self, char splitChar = ',') {
+        if (self == null || self.Length == 0) {
             Debug.Log("StringExtensions.SplitAndTrim: String was empty!");
             return new List<string>();
         }
 
-        var list = new List<string>(self.Split(','));
+        var list = new List<string>(self.Split(splitChar));
         for (int i = 0; i < list.Count; i++) {
             list[i] = list[i].Trim();
         }
