@@ -1,11 +1,16 @@
 ﻿using System.Collections.Generic;
 
-public delegate void Callback(object[] args);
+//public delegate void Callback(object[] args);
 
-public class Messenger {
-    private static Dictionary<string, List<Callback>> Listeners = new Dictionary<string, List<Callback>>();
+//There might be a better way to merge this with Messenger at some point, but this is the simplest solution for now.
+public class LocalMessenger {
+    private Dictionary<string, List<Callback>> Listeners;
 
-    public static void On(string message, Callback callback) {
+    public LocalMessenger() {
+        Listeners = new Dictionary<string, List<Callback>>();
+    }
+
+    public void On(string message, Callback callback) {
         List<Callback> group = null;
         if (!Listeners.TryGetValue(message, out group)) {
             group = new List<Callback>();
@@ -14,14 +19,14 @@ public class Messenger {
         group.Add(callback);
     }
 
-    public static void Un(string message, Callback callback) {
+    public void Un(string message, Callback callback) {
         List<Callback> group = null;
         if (callback != null && Listeners.TryGetValue(message, out group)) {
             group.Remove(callback);
         }
     }
 
-    public static void Fire(string message, object[] args = null) {
+    public void Fire(string message, object[] args = null) {
         //Debug.Log("Messenger.Fire: " + message);
         List<Callback> group = null;
         if (Listeners.TryGetValue(message, out group)) {
@@ -32,7 +37,7 @@ public class Messenger {
         }
     }
 
-    public static void RemoveAll(string message = null) {
+    public void RemoveAll(string message = null) {
         if (message != null) {
             Listeners.Remove(message);
         }

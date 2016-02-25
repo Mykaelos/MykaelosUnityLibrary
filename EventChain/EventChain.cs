@@ -5,12 +5,12 @@ public class EventChain : MonoBehaviour {
     private List<EventLink> Chain = new List<EventLink>();
     private int CurrentEvent;
 
-    public bool IsRunning = true;
+    public bool IsRunning = false;
     public bool IsFinished = false;
 
     private static EventChain Instance;
-    private static EventChain GetInstance() {
-        if(Instance == null) {
+    public static EventChain GetInstance() {
+        if (Instance == null) {
             Instance = new GameObject("EventChain").AddComponent<EventChain>();
         }
 

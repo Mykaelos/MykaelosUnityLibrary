@@ -37,4 +37,11 @@ public static class StringExtensions {
         }
         return list;
     }
+
+    public static string FormatWith(this string self, params object[] args) {
+        if (self == null) {
+            return null;
+        }
+        return string.Format(self, args);
+    }
 }
