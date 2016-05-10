@@ -11,6 +11,21 @@ public static class ListExtension {
         return list[Random.Range(0, list.Count)];
     }
 
+    public static T RandomElementExcept<T>(this List<T> list, T excludedElement) {
+        if (list.Count == 0) {
+            return default(T);
+        }
+
+        List<T> listWithoutElement = new List<T>(list);
+        listWithoutElement.Remove(excludedElement);
+
+        if (listWithoutElement.Count == 0) {
+            return default(T);
+        }
+
+        return listWithoutElement[Random.Range(0, listWithoutElement.Count)];
+    }
+
     public static int RandomIndexByWeight(this List<float> weightsList, float totalWeight = -1) {
         if (weightsList.Count == 0) {
             return -1;
