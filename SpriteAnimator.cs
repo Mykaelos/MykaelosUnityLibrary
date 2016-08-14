@@ -12,18 +12,18 @@ public class SpriteAnimator : MonoBehaviour {
     private Timer NextFrameTimer;
 
 
-    void Awake() {
+    protected virtual void Awake() {
         Renderer = GetComponent<SpriteRenderer>();
         NextFrameTimer = new Timer();
     }
 
-    public void Start() {
+    protected virtual void Start() {
         if (Sprites != null && Sprites.Count > 0) {
             Renderer.sprite = Sprites[CurrentFrame];
         }
     }
 
-    public void FixedUpdate() {
+    void FixedUpdate() {
         if (IsAnimating && NextFrameTimer.Check(1f / FPS)) {
             NextFrameTimer.Reset();
             if (++CurrentFrame >= Sprites.Count) {
@@ -31,5 +31,9 @@ public class SpriteAnimator : MonoBehaviour {
             }
             Renderer.sprite = Sprites[CurrentFrame];
         }
+    }
+
+    public void Restart() {
+        CurrentFrame = 0;
     }
 }
