@@ -48,7 +48,7 @@ public class TouchManager {
     }
 
     public static List<TouchPoint> GetTouches() {
-        if(AreTouchesStale()) {
+        if (AreTouchesStale()) {
             UpdateTouches();
         }
 

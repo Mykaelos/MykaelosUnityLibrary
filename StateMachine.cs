@@ -12,7 +12,7 @@ public class StateMachine : MonoBehaviour {
     public static StateMachine Initialize(GameObject gameObject, List<StateMachineState> states, string initialState) {
         StateMachine machine = gameObject.AddComponent<StateMachine>();
 
-        foreach(var state in states) {
+        foreach (var state in states) {
             machine.States.Add(state.Name, state);
         }
 
@@ -22,15 +22,15 @@ public class StateMachine : MonoBehaviour {
     }
 
     void Update() {
-        if(CurrentState != null) {
-            if(CurrentState.Check != null) {
+        if (CurrentState != null) {
+            if (CurrentState.Check != null) {
                 string nextStateName = CurrentState.Check();
                 if (nextStateName != null) {
                     SwitchState(nextStateName);
                 }
             }
 
-            if(CurrentState.Update != null) {
+            if (CurrentState.Update != null) {
                 CurrentState.Update();
             }
         }
@@ -43,17 +43,17 @@ public class StateMachine : MonoBehaviour {
 
         StateMachineState nextState = States.Get(nextStateName);
 
-        if(nextState == null) {
+        if (nextState == null) {
             Debug.Log(string.Format("StateMachine on {0} could not switch to {1}.", gameObject.name, nextStateName));
             return;
         }
 
-        if(CurrentState != null && CurrentState.End != null) {
+        if (CurrentState != null && CurrentState.End != null) {
             CurrentState.End();
         }
 
         CurrentState = nextState;
-        if(CurrentState.Start != null) {
+        if (CurrentState.Start != null) {
             CurrentState.Start();
         }
     }

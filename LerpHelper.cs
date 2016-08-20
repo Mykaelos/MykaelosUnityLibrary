@@ -21,7 +21,7 @@ public class LerpHelper {
     /*Reverse of CurveToOneFastSlow
      * Low velocity to zero with acceleration.
      * percentProgress: Lerp between 0 and 1
-     * steepness: How quickly the line rises initially. Larger values make it almost a right angle. Must be larger than 
+     * steepness: How quickly the line rises initially. Larger values make it almost a right angle. Must be larger than 0.
      */
     public static float CurveToZeroSlowFast(float percentProgress, float steepness) {
         return CurveToOneFastSlow(Reverse(percentProgress), steepness);
