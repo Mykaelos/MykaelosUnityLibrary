@@ -17,6 +17,8 @@ public static class ColorExtension {
 
 }
 
+//Moved this to String extension HexAsColor
+
 //    public static void Hex(this Color color, string hexString) {
 //        //hexString.Replace("#", "")
 //        int hex = byte.Parse(hexString.Replace("#", ""), System.Globalization.NumberStyles.HexNumber);
