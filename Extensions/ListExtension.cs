@@ -17,7 +17,9 @@ public static class ListExtension {
         }
 
         List<T> listWithoutElement = new List<T>(list);
-        listWithoutElement.Remove(excludedElement);
+        if (excludedElement != null) {
+            listWithoutElement.Remove(excludedElement);
+        }
 
         if (listWithoutElement.Count == 0) {
             return default(T);
