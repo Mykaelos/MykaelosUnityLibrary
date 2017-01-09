@@ -107,6 +107,16 @@ public class AudioManager {
         }
     }
 
+    public static void PlaySound(AudioSource source, float pitch = 1, float volumeMultiplier = 1) {
+        if (!IsSoundMuted) {
+            source.loop = false;
+            source.mute = IsSoundMuted;
+            source.volume = SoundVolume * volumeMultiplier;
+            source.pitch = pitch;
+            source.Play();
+        }
+    }
+
     public static void StopMusic(AudioSource source = null) {
         AudioSource musicSource = source ?? MusicSource;
         musicSource.Stop();
