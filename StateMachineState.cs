@@ -15,4 +15,6 @@ public class StateMachineState {
         Update = update;
         End = end;
     }
+
+    public StateMachineState() { }
 }

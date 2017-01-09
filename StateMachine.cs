@@ -9,11 +9,14 @@ public class StateMachine : MonoBehaviour {
     }
 
 
-    public static StateMachine Initialize(GameObject gameObject, List<StateMachineState> states, string initialState) {
+    public static StateMachine Initialize(GameObject gameObject, List<StateMachineState> states, string initialState = null) {
         StateMachine machine = gameObject.AddComponent<StateMachine>();
 
         foreach (var state in states) {
             machine.States.Add(state.Name, state);
+        }
+        if (initialState == null) { // Default to first state if null.
+            initialState = states[0].Name;
         }
 
         machine.SwitchState(initialState);
