@@ -14,6 +14,7 @@ public class StateMachine : MonoBehaviour {
 
         foreach (var state in states) {
             machine.States.Add(state.Name, state);
+            state.Parent = machine;
         }
         if (initialState == null) { // Default to first state if null.
             initialState = states[0].Name;
