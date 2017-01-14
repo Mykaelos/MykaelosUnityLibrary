@@ -37,4 +37,18 @@ public static class SpriteRendererExtension {
             GameObject.Destroy(spriteRenderer.gameObject);
         }
     }
+
+    public static Vector3 GetWorldSpaceSize(this SpriteRenderer spriteRenderer) {
+        if (spriteRenderer == null || spriteRenderer.sprite == null) {
+            return Vector3.zero;
+        }
+
+        Vector2 spriteSize = spriteRenderer.sprite.rect.size;
+        Vector2 localSpriteSize = spriteSize / spriteRenderer.sprite.pixelsPerUnit;
+        // Final step to convert to world size is to scale.
+        localSpriteSize.x *= spriteRenderer.transform.lossyScale.x;
+        localSpriteSize.y *= spriteRenderer.transform.lossyScale.y;
+
+        return localSpriteSize;
+    }
 }
