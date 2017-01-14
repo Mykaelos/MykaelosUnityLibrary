@@ -48,4 +48,8 @@ public class Timer {
         delay = delay == 0 ? Delay : delay;
         return Mathf.Max((Last + delay) - Time.time, 0);
     }
+
+    public void SetTimeRemaining(float remaining) {
+        Last = remaining - Delay + Time.time;
+    }
 }
