@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class AudioManager {
-    private static Dictionary<string, AudioClip> AudioClips = new Dictionary<string, AudioClip>();
+public class AudioManager : MonoBehaviour {
+    public List<AudioClip> AudioClips = new List<AudioClip>(); // Allows clips to be linked in the editor.
+    private static Dictionary<string, AudioClip> AudioClipDictionary = new Dictionary<string, AudioClip>(); // Holds all clips
     
     #region Privates
     private static GameObject _MusicObject;
@@ -30,19 +31,32 @@ public class AudioManager {
 
 
     public static void SetTracks(Dictionary<string, string> tracks) {
-        AudioClips = new Dictionary<string, AudioClip>();
+        AudioClipDictionary = new Dictionary<string, AudioClip>();
         foreach (var track in tracks) {
-            AudioClips.Add(track.Key, Resources.Load<AudioClip>(track.Value));
+            AudioClipDictionary.Add(track.Key, Resources.Load<AudioClip>(track.Value));
         }
     }
 
     public static void AddTracks(Dictionary<string, string> tracks) {
-        AudioClips = AudioClips ?? new Dictionary<string, AudioClip>();
+        AudioClipDictionary = AudioClipDictionary ?? new Dictionary<string, AudioClip>();
         foreach (var track in tracks) {
-            if(!AudioClips.ContainsKey(track.Key)) {
-                AudioClips.Add(track.Key, Resources.Load<AudioClip>(track.Value));
+            if(!AudioClipDictionary.ContainsKey(track.Key)) {
+                AudioClipDictionary.Add(track.Key, Resources.Load<AudioClip>(track.Value));
             }
         }
+    }
+
+    public static void AddTracks(List<AudioClip> clips) {
+        for (int i = 0; i < clips.Count; i++) {
+            var clip = clips[i];
+            if (clip != null && !AudioClipDictionary.ContainsKey(clip.name)) {
+                AudioClipDictionary.Add(clip.name, clip);
+            }
+        }
+    }
+
+    void Awake() {
+        AddTracks(AudioClips);
     }
 
     public static void PlayMusic(string audioName, bool repeat, bool restart) {
@@ -144,10 +158,10 @@ public class AudioManager {
     }
 
     private static AudioClip GetOrLoadClip(string audioName) {
-        AudioClip clip = AudioClips.Get(audioName);
+        AudioClip clip = AudioClipDictionary.Get(audioName);
         if (clip == null) {
             clip = Resources.Load<AudioClip>(audioName);
-            AudioClips.Add(audioName, clip);
+            AudioClipDictionary.Add(audioName, clip);
         }
         return clip;
     }
@@ -170,3 +184,17 @@ public class AudioManager {
         return _TempAudioSourcePrefab;
     }
 }
+
+
+/* 
+TODOs
+- Split this class into two classes: MusicManager and SoundManager, that share a parent AudioManager
+- Make it easier to use either the resources folder or link clips directly.
+- Make it easier to use a specific AudioSource or create one dynamically.
+- Add fading in/out.
+
+NICE TO HAVES
+- Add in all kinds of fancy effects or delays
+- Use an object pool when creating a temp AudioSources
+- Investigate AudioMixers
+*/
