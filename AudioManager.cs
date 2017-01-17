@@ -59,11 +59,11 @@ public class AudioManager : MonoBehaviour {
         AddTracks(AudioClips);
     }
 
-    public static void PlayMusic(string audioName, bool repeat, bool restart) {
-        PlayMusic(audioName, MusicSource, repeat, restart);
+    public static void PlayMusic(string audioName, bool repeat = true, bool restart = false, float volumeMultiplier = 1, float pitch = 1) {
+        PlayMusic(audioName, MusicSource, repeat, restart, volumeMultiplier, pitch);
     }
 
-    public static void PlayMusic(string audioName, AudioSource source, bool repeat, bool restart) {
+    public static void PlayMusic(string audioName, AudioSource source, bool repeat = true, bool restart = false, float volumeMultiplier = 1, float pitch = 1) {
         AudioClip audioClip = GetOrLoadClip(audioName);
         if (audioClip == null) {
             Debug.Log("AudioManager: Could not find clip \"" + audioName + "\"");
@@ -73,8 +73,8 @@ public class AudioManager : MonoBehaviour {
         AudioSource musicSource = source ?? MusicSource;
         musicSource.loop = repeat;
         musicSource.mute = IsMusicMuted;
-        musicSource.volume = MusicVolume;
-        musicSource.pitch = 1f;
+        musicSource.volume = MusicVolume * volumeMultiplier;
+        musicSource.pitch = pitch;
 
         if (!restart && musicSource.isPlaying && musicSource.clip != null && musicSource.clip.name.Equals(audioClip.name)) {
             return;

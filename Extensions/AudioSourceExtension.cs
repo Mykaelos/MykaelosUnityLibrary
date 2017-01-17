@@ -51,3 +51,9 @@ public class AudioSourceFadeState {
         ShouldStop = shouldStop;
     }
 }
+
+/* 
+TODOs
+- Rename this file to AudioSourceFadeExtension
+- Create a new AudioSourceExtension that does some nice batch methods like AudioManager.PlaySound() with pitch, volume, etc.
+*/
