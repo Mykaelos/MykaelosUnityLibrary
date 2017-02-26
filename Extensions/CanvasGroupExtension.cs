@@ -4,10 +4,10 @@ using System;
 
 public static class CanvasGroupExtension {
    
-    public static void SetVisible(this CanvasGroup group, bool isVisible) {
+    public static void SetVisible(this CanvasGroup group, bool isVisible, bool isSolid = true) {
         group.alpha = isVisible ? 1 : 0;
-        group.blocksRaycasts = isVisible;
-        group.interactable = isVisible;
+        group.blocksRaycasts = isVisible && isSolid;
+        group.interactable = isVisible && isSolid;
     }
 
     public static void FadeOut(this CanvasGroup group, MonoBehaviour behaviour = null, float fadeDuration = 3f, Action finishedCallback = null) {
