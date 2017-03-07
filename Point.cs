@@ -41,9 +41,17 @@ public struct Point : System.IEquatable<Point> {
         return false;
     }
 
+    // http://stackoverflow.com/a/263416/1437653
     public override int GetHashCode() {
-        return X.GetHashCode() ^ Y.GetHashCode();
+        unchecked // Overflow is fine, just wrap
+        {
+            int hash = 17;
+            hash = hash * 23 + X.GetHashCode();
+            hash = hash * 23 + Y.GetHashCode();
+            return hash;
+        }
     }
+
 
     public static implicit operator Vector2(Point point) {
         return point.Vector2();
