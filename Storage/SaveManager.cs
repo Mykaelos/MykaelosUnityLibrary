@@ -5,16 +5,17 @@ using System;
 public class SaveManager : MonoBehaviour {
     public static Dictionary<Type, object> Data = new Dictionary<Type, object>();
 
+    public bool IsAutoSaveEnabled = true;
     public float AutoSaveDelay = 30f;
     Timer SaveTimer;
 
-
+    #region Unity Methods
     void Awake() {
         SaveTimer = new Timer(AutoSaveDelay);
     }
 
     void Update() {
-        if (SaveTimer.Check()) {
+        if (IsAutoSaveEnabled && SaveTimer.Check()) {
             SaveTimer.Reset();
             Save();
         }
@@ -42,7 +43,8 @@ public class SaveManager : MonoBehaviour {
     //        Save();
     //    }
     //}
-
+    #endregion
+    
     public static void Set<T>(T data) where T : class {
         Type type = typeof(T);
         if (Data.ContainsKey(type)) {
