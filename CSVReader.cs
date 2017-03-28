@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System;
 //using ScottGarland;
 
 public class CSVReader {
@@ -52,10 +53,24 @@ public class CSVReader {
         return -1;
     }
 
+    public object Get(int row, string field, Type type) {
+        if (type == typeof(int)) {
+            return GetInt(row, field);
+        }
+        else if (type == typeof(float)) {
+            return GetFloat(row, field);
+        }
+        else if (type == typeof(bool)) {
+            return GetBool(row, field);
+        }
+
+        return GetString(row, field);
+    }
+
     public string GetString(int row, string field, string defaultValue = default(string)) {
         int col = GetCol(field);
         if (col == -1 || row < 0 || row >= Data.Count) {
-            return null;
+            return defaultValue;
         }
 
         return Data[row][col];
