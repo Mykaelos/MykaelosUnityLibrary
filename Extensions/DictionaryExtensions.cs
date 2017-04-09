@@ -8,6 +8,10 @@ public static class DictionaryExtensions {
         return dictionary.TryGetValue(key, out foundValue) ? foundValue : defaultValue; //default of an object is null
     }
 
+    public static void Set<K, V>(this Dictionary<K, V> dictionary, K key, V value) {
+        dictionary[key] = value;
+    }
+
     public static V RandomElement<K, V>(this Dictionary<K, V> dictionary) {
         if (dictionary.Count == 0) {
             return default(V);
