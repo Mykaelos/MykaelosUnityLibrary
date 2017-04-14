@@ -17,9 +17,28 @@ public class EventChain : MonoBehaviour {
         return Instance;
     }
 
-
     public static EventChain Begin(List<EventLink> chain) {
-        EventChain instance = GetInstance();
+        return Begin(null, chain);
+    }
+
+    public static EventChain Begin(GameObject gameObject, List<EventLink> chain) {
+        EventChain instance;
+        if (gameObject != null) {
+            if (gameObject.GetComponent<EventChain>()) {
+                instance = gameObject.GetComponent<EventChain>();
+
+                if (instance.IsRunning) {
+                    instance.Stop();
+                }
+            }
+            else {
+                instance = gameObject.AddComponent<EventChain>();
+            }
+        }
+        else {
+            instance = GetInstance();
+        }
+        
         instance.Chain = chain;
         instance.IsRunning = true;
         instance.IsFinished = false;

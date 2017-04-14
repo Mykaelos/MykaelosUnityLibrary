@@ -8,7 +8,6 @@ public class WaitUntil : MonoBehaviour {
         get { return _Self != null ? _Self : _Self = (new GameObject("WaitUntil")).AddComponent<WaitUntil>(); }
     }
 
-    
 
     public static void IsTrue(Func<bool> checkFn, Action<bool> callback, float maxDuration) {
         Self.StartCoroutine(Self.IsTrueLoop(checkFn, callback, maxDuration));
@@ -33,6 +32,8 @@ public class WaitUntil : MonoBehaviour {
 
     private IEnumerator SecondsLoop(float duration, Action callback) {
         yield return new WaitForSeconds(duration);
-        callback();
+        if (callback != null) {
+            callback();
+        }
     }
 }
