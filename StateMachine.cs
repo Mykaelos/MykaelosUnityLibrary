@@ -10,8 +10,16 @@ public class StateMachine : MonoBehaviour {
 
 
     public static StateMachine Initialize(GameObject gameObject, List<StateMachineState> states, string initialState = null) {
-        StateMachine machine = gameObject.AddComponent<StateMachine>();
+        StateMachine machine;
+        if (gameObject.GetComponent<StateMachine>() != null) {
+            machine = gameObject.GetComponent<StateMachine>();
+            machine.CurrentState = null;
+        }
+        else {
+            machine = gameObject.AddComponent<StateMachine>();
+        }
 
+        machine.States.Clear();
         foreach (var state in states) {
             machine.States.Add(state.Name, state);
             state.Parent = machine;
