@@ -10,12 +10,17 @@ public static class CanvasGroupExtension {
         group.interactable = isVisible && isSolid;
     }
 
-    public static void FadeOut(this CanvasGroup group, MonoBehaviour behaviour = null, float fadeDuration = 3f, Action finishedCallback = null) {
+    public static IEnumerator FadeOut(this CanvasGroup group, MonoBehaviour behaviour = null, float waitDuration = 0, float fadeDuration = 3f, Action finishedCallback = null) {
         behaviour = behaviour ?? AutoMonoBehaviour.Instantiate(group.gameObject);
-        behaviour.StartCoroutine(StartFadeOut(group, fadeDuration, finishedCallback));
+        IEnumerator coroutine = StartFadeOut(group, waitDuration, fadeDuration, finishedCallback);
+        behaviour.StartCoroutine(coroutine);
+        return coroutine;
     }
 
-    private static IEnumerator StartFadeOut(CanvasGroup group, float fadeDuration, Action finishedCallback) {
+    private static IEnumerator StartFadeOut(CanvasGroup group, float waitDuration, float fadeDuration, Action finishedCallback) {
+        if (waitDuration > 0) {
+            yield return new WaitForSeconds(waitDuration);
+        }
         float startingAlpha = group.alpha;
         float currentDuration = 0;
         float startTime = Time.time;
@@ -31,5 +36,14 @@ public static class CanvasGroupExtension {
         if (finishedCallback != null) {
             finishedCallback();
         }
+    }
+
+    public static void StopFadeOut(this CanvasGroup group, IEnumerator coroutine, MonoBehaviour behaviour = null) {
+        behaviour = behaviour ?? group.gameObject.GetComponent<AutoMonoBehaviour>();
+        if (behaviour == null) {
+            Debug.Log("No behavior to stop fade out!");
+            return;
+        }
+        behaviour.StopCoroutine(coroutine);
     }
 }

@@ -16,24 +16,24 @@ public static class SpriteRendererExtension {
     }
 
     private static IEnumerator StartFadeOut(SpriteRenderer spriteRenderer, float waitDuration, float fadeDuration, bool destroyOnFinished, Action finishedCallback) {
-        if(waitDuration > 0) {
+        if (waitDuration > 0) {
             yield return new WaitForSeconds(waitDuration);
         }
         float startingAlpha = spriteRenderer.color.a;
         float currentDuration = 0;
         float startTime = Time.time;
 
-        while(currentDuration < fadeDuration) {
+        while (currentDuration < fadeDuration) {
             spriteRenderer.SetAlpha(Mathf.Lerp(startingAlpha, 0, currentDuration / fadeDuration));
             yield return 0;
             currentDuration = Time.time - startTime;
         }
 
-        if(finishedCallback != null) {
+        if (finishedCallback != null) {
             finishedCallback();
         }
 
-        if(destroyOnFinished) {
+        if (destroyOnFinished) {
             GameObject.Destroy(spriteRenderer.gameObject);
         }
     }
