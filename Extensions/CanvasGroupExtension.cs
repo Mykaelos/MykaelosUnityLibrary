@@ -41,7 +41,7 @@ public static class CanvasGroupExtension {
     public static void StopFadeOut(this CanvasGroup group, IEnumerator coroutine, MonoBehaviour behaviour = null) {
         behaviour = behaviour ?? group.gameObject.GetComponent<AutoMonoBehaviour>();
         if (behaviour == null) {
-            Debug.Log("No behavior to stop fade out!");
+            Debug.Log("No behaviour to stop fade out!");
             return;
         }
         behaviour.StopCoroutine(coroutine);
