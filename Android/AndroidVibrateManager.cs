@@ -1,5 +1,26 @@
 ﻿using UnityEngine;
 
+/**
+ * ### Android Setup Required
+ * You need to include the following permission in your AndroidManifest.xml
+ * 
+ * ```
+ * <uses-permission android:name="android.permission.VIBRATE" />
+ * ```
+  * 
+ * You can either copy the Unity built manifest from Temp/StatingArea/AndroidManifest.xml into your Plugins/Android/ folder, and add the VIBRATE permission, or you can trick Unity to add it for you by including Handheld.Vibrate() in your code somewhere. If you don't want Unity to actually run Handheld.Vibrate(), you can block it with an if statement that never runs:
+ * 
+ * ```
+ * bool alwaysFalse = false;
+ * if (alwaysFalse) {
+ *     Handheld.Vibrate();
+ * }
+ * ```
+ * 
+ * **Note:** `if (false)` wont work because Unity will see it as unreachable code, and not include it in the project, and you won't get the permission automatically added for you.
+ * 
+ * You could also try to merge in the permission yourself with a PostProcessBuild Step for Android [like this one](https://github.com/gree/unity-webview/blob/master/plugins/Android/Editor/UnityWebViewPostprocessBuild.cs).
+ */
 public class AndroidVibrateManager {
     private static AndroidJavaObject VibratorInstance = null;
 
