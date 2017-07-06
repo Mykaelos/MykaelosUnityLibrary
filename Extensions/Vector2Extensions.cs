@@ -15,4 +15,8 @@ public static class Vector2Extensions {
         position = temp;
         return position;
     }
+
+    public static float RandomRange(this Vector2 range) {
+        return Random.Range(range.x, range.y);
+    }
 }
