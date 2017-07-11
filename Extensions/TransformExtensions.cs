@@ -40,4 +40,38 @@ public static class TransformExtensions {
     public static Rect Rect(this Transform transform) {
         return ((RectTransform)transform).rect;
     }
+
+    public static Transform FindFirstChildByName(this Transform transform, string name) {
+        foreach (Transform child in transform) {
+            if (name.Equals(child.name)) {
+                return child;
+            }
+        }
+
+        foreach (Transform child in transform) {
+            var returnedChild = child.FindFirstChildByName(name);
+            if (returnedChild != null && name.Equals(returnedChild.name)) {
+                return returnedChild;
+            }
+        }
+
+        return null;
+    }
+
+    public static T FindFirstChildComponentByType<T>(this Transform transform) {
+        var returnedComponent = transform.GetComponent<T>();
+
+        if (returnedComponent != null) {
+            return returnedComponent;
+        }
+
+        foreach (Transform child in transform) {
+            var returnedChildComponent = child.FindFirstChildComponentByType<T>();
+            if (returnedChildComponent != null) {
+                return returnedChildComponent;
+            }
+        }
+
+        return default(T);
+    }
 }
