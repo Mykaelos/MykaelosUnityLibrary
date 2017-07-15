@@ -28,6 +28,10 @@ public static class RichTextExtension {
     public static string NewLine(this string self) {
         return string.Format("{0}\n", self);
     }
+
+    public static string NL(this string self) {
+        return self.NewLine();
+    }
 }
 
 /** http://docs.unity3d.com/Manual/StyledText.html
