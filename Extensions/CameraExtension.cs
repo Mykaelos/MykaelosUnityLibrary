@@ -3,6 +3,7 @@
 public static class CameraExtension {
     //Returns the visible world space as a Rect. lower left is the the Rect's origin.
     public static Rect VisibleWorldRect(this Camera camera) {
+        // This only worlds for orthographic cameras for now!
         Vector2 lowerLeft = camera.ViewportToWorldPoint(Vector2.zero);
         Vector2 upperRight = camera.ViewportToWorldPoint(Vector2.one);
 
