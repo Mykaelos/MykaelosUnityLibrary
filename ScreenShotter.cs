@@ -10,7 +10,7 @@ public class ScreenShotter : MonoBehaviour {
 
     public static void TakeScreenShot() {
         string name = "ScreenShot" + System.DateTime.Now.ToString("yyyyMMdd\\THHmmssfff") + ".png";
-        Application.CaptureScreenshot(name);
+        ScreenCapture.CaptureScreenshot(name);
         Debug.Log("Screenshot saved: " + name);
     }
 }

@@ -12,6 +12,7 @@ public class SpriteAnimator : MonoBehaviour {
     private Timer NextFrameTimer;
 
 
+    #region Unity Methods
     protected virtual void Awake() {
         Renderer = GetComponent<SpriteRenderer>();
         NextFrameTimer = new Timer();
@@ -32,6 +33,7 @@ public class SpriteAnimator : MonoBehaviour {
             Renderer.sprite = Sprites[CurrentFrame];
         }
     }
+    #endregion
 
     public void Restart() {
         CurrentFrame = 0;
