@@ -57,21 +57,4 @@ public static class TransformExtensions {
 
         return null;
     }
-
-    public static T FindFirstChildComponentByType<T>(this Transform transform) {
-        var returnedComponent = transform.GetComponent<T>();
-
-        if (returnedComponent != null) {
-            return returnedComponent;
-        }
-
-        foreach (Transform child in transform) {
-            var returnedChildComponent = child.FindFirstChildComponentByType<T>();
-            if (returnedChildComponent != null) {
-                return returnedChildComponent;
-            }
-        }
-
-        return default(T);
-    }
 }
