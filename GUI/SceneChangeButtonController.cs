@@ -4,15 +4,26 @@ using UnityEngine.UI;
 
 public class SceneChangeButtonController : MonoBehaviour {
     public string DestinationSceneName;
-    private Button Button;
+    public Color FadeOutColor;
+    public float FadeOutDuration = 1f;
+    private bool LoadingNextScene = false;
 
 
     void Start() {
-        Button = GetComponent<Button>();
-        Button.onClick.AddListener(OnButtonClick);
+        GetComponent<Button>().onClick.AddListener(OnButtonClick);
     }
 
     void OnButtonClick() {
-        SceneManager.LoadScene(DestinationSceneName);
+        if (!LoadingNextScene) {
+            LoadingNextScene = true;
+            TransitionManager.FadeOut(1f, FadeOutColor, delegate {
+                SceneManager.LoadScene(DestinationSceneName);
+                LoadingNextScene = false;
+            });
+        }
     }
 }
+
+/* TODOs:
+ * Find a way to FadeIn Automatically for the next scene, inside of this code.
+ */
