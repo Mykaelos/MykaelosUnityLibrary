@@ -61,6 +61,10 @@ public struct Point : System.IEquatable<Point> {
         return new Point((int)vector2.x, (int)vector2.y);
     }
 
+    public static implicit operator Point(Vector3 vector3) {
+        return new Point((int)vector3.x, (int)vector3.y);
+    }
+
     public static bool operator ==(Point term1, Point term2) {
         return term1.Equals(term2);
     }
