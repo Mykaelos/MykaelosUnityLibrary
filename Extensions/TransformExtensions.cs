@@ -57,4 +57,51 @@ public static class TransformExtensions {
 
         return null;
     }
+
+    // Looks for a transform by name starting with siblings, then looking in the parents all the way up.
+    // This has the obvious risk of searching every object at the top level, so use wisely.
+    public static Transform FindSiblingOrParent(this Transform transform, string name) {
+        if (transform.parent != null) {
+            var parent = transform.parent;
+
+            foreach (Transform child in parent) {
+                if (name.Equals(child.name)) {
+                    return child;
+                }
+            }
+
+            return parent.FindSiblingOrParent(name);
+        }
+
+        return null;
+    }
+
+    // Looks for a component starting with siblings, then looking in the parents all the way up.
+    // This has the obvious risk of searching every object at the top level, so use wisely.
+    public static T FindComponentInSiblingOrParent<T>(this Transform transform) {
+        if (transform.parent != null) {
+            var parent = transform.parent;
+
+            foreach (Transform child in parent) {
+                var component = child.GetComponent<T>();
+
+                if (component != null) {
+                    return component;
+                }
+            }
+
+            return parent.FindComponentInSiblingOrParent<T>();
+        }
+
+        return default(T);
+    }
+
+    public static T FindRequiredComponentInSiblingOrParent<T>(this Transform transform) {
+        var requiredComponent = transform.FindComponentInSiblingOrParent<T>();
+        if (requiredComponent == null) {
+            Debug.LogError(typeof(T).Name + " IS REQUIRED FOR " + transform.gameObject.name);
+        }
+
+        return requiredComponent;
+    }
 }
