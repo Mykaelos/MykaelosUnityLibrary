@@ -19,4 +19,15 @@ public static class DictionaryExtensions {
 
         return new List<V>(dictionary.Values).RandomElement();
     }
+
+    public static V First<K, V>(this Dictionary<K, V> dictionary, V defaultValue = default(V)) {
+        V foundValue = defaultValue;
+        using (var iterator = dictionary.Keys.GetEnumerator()) {
+            if (iterator.MoveNext()) {
+                foundValue = dictionary.Get(iterator.Current, defaultValue);
+            }
+        }
+
+        return foundValue;
+    }
 }

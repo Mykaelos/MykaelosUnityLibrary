@@ -41,14 +41,21 @@ public class TouchManager {
                 Touch touch = Input.GetTouch(i);
                 Vector3 worldPosition = Camera.main.ScreenToWorldPoint(touch.position);
 
-                UpdateTouch(touch.fingerId, worldPosition, touch.phase);
+                UpdateTouch(touch.fingerId, worldPosition, touch.position, touch.phase);
             }
         }
         else if (Input.GetMouseButton(0) || Input.GetMouseButtonUp(0)) {
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            TouchPhase phase = Input.GetMouseButtonDown(0) ? TouchPhase.Began : Input.GetMouseButtonUp(0) ? TouchPhase.Ended : TouchPhase.Moved;
 
-            UpdateTouch(MOUSE_ID, worldPosition, phase);
+            bool isStationary = false;
+            var lastTouchPoint = LastTouches.Get(MOUSE_ID);
+            if (lastTouchPoint != null) {
+                isStationary = lastTouchPoint.ScreenPosition == (Vector2)Input.mousePosition;
+            }
+
+            TouchPhase phase = Input.GetMouseButtonDown(0) ? TouchPhase.Began : Input.GetMouseButtonUp(0) ? TouchPhase.Ended : isStationary ? TouchPhase.Stationary : TouchPhase.Moved;
+
+            UpdateTouch(MOUSE_ID, worldPosition, Input.mousePosition, phase);
         }
     }
 
@@ -60,19 +67,27 @@ public class TouchManager {
         return Time.time > LastCheck;
     }
 
-    static void UpdateTouch(int id, Vector2 worldPosition, TouchPhase phase) {
+    static void UpdateTouch(int id, Vector2 worldPosition, Vector2 screenPosition, TouchPhase phase) {
         var touchPoint = LastTouches.Get(id);
         if (touchPoint == null) {
             touchPoint = new TouchPoint {
                 ID = id,
                 TouchStartTime = Time.time,
-                Position = worldPosition, // So touch has an initial position for velocity to work
-                StartPosition = worldPosition
+
+                Position = worldPosition,
+                ScreenPosition = screenPosition,
+
+                StartPosition = worldPosition,
+                StartScreenPosition = screenPosition
             };
         }
 
         touchPoint.LastPosition = touchPoint.Position;
         touchPoint.Position = worldPosition;
+
+        touchPoint.LastScreenPosition = touchPoint.ScreenPosition;
+        touchPoint.ScreenPosition = screenPosition;
+
         touchPoint.Phase = phase;
 
         Touches.Add(id, touchPoint);
@@ -81,13 +96,27 @@ public class TouchManager {
 
 public class TouchPoint {
     public int ID;
-    public Vector2 Position;
     public TouchPhase Phase;
 
-    public float TouchStartTime;
     public Vector2 StartPosition;
     public Vector2 LastPosition;
+    public Vector2 Position;
 
+    public Vector2 StartScreenPosition;
+    public Vector2 LastScreenPosition;
+    public Vector2 ScreenPosition;
+
+    public float TouchStartTime;
+    private bool Consumed = false;
+
+
+    public void Consume() {
+        Consumed = true;
+    }
+
+    public bool IsConsumed() {
+        return Consumed;
+    }
 
     public float Duration {
         get {
@@ -98,6 +127,12 @@ public class TouchPoint {
     public Vector2 Velocity {
         get {
             return Position - LastPosition;
+        }
+    }
+
+    public Vector2 ScreenVelocity {
+        get {
+            return ScreenPosition - LastScreenPosition;
         }
     }
 
