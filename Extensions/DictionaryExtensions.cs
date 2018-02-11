@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 public static class DictionaryExtensions {
     public static V Get<K, V>(this Dictionary<K, V> dictionary, K key, V defaultValue = default(V)) {
