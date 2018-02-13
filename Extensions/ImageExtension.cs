@@ -10,4 +10,12 @@ public static class ImageExtension {
         temp.a = alpha;
         image.color = temp;
     }
+
+    public static float GetAlpha(this Image image) {
+        return image.color.a;
+    }
+
+    public static bool IsVisible(this Image image) {
+        return image.GetAlpha() > 0;
+    }
 }

@@ -56,4 +56,11 @@ public class FileSaveUtils<T> {
 
         return data;
     }
+
+    public static string FileSize(string fileName) {
+        string filePath = string.Format("{0}/{1}.dat", Application.persistentDataPath, fileName);
+        var fileInfo = new FileInfo(filePath);
+        float kb = fileInfo.Length / 1024f;
+        return "{0:N2} KB".FormatWith(kb);
+    }
 }

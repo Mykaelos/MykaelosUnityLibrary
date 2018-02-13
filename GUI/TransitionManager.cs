@@ -51,7 +51,6 @@ public class TransitionManager : MonoBehaviour {
     private void BuildCanvas() {
         var canvas = gameObject.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-
         gameObject.AddComponent<GraphicRaycaster>();
 
         var imageGameObject = new GameObject("Image");
@@ -71,6 +70,7 @@ public class TransitionManager : MonoBehaviour {
         _IsFading = true;
         CurrentDuration = Direction > 0 ? 0.01f : Duration - 0.01f;
         Image.SetAlpha(CurrentDuration / Duration);
+        Image.raycastTarget = Image.IsVisible();
 
         while (CurrentDuration / Duration > 0 && CurrentDuration / Duration < 1) {
             yield return new WaitForSeconds(0.01f);
@@ -80,6 +80,7 @@ public class TransitionManager : MonoBehaviour {
         }
 
         Image.SetAlpha(CurrentDuration / Duration);
+        Image.raycastTarget = Image.IsVisible();
 
         _IsFading = false;
         if (finishedCallback != null) {
