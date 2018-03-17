@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class StatManager {
     #region LocalMessenger
@@ -103,7 +104,7 @@ public class Stat {
     public string Name;
     public double Value {
         get { return _Value; }
-        set { _Value = value; LocalMessenger.Fire(CHANGED, new object[] { }); }
+        set { _Value = value; LocalMessenger.Fire(CHANGED, new object[] { }); /*Debug.Log("{0}: {1}".FormatWith(Name, _Value));*/ }
     }
     private double _Value;
 

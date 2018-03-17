@@ -14,6 +14,10 @@ public static class CanvasGroupExtension {
         return group.alpha == 1 && (requiresSolid ? group.blocksRaycasts && group.interactable : true);
     }
 
+    public static void ToggleVisible(this CanvasGroup group) {
+        group.SetVisible(!group.IsVisible());
+    }
+
     public static IEnumerator FadeOut(this CanvasGroup group, MonoBehaviour behaviour = null, float waitDuration = 0, float fadeDuration = 3f, Action finishedCallback = null) {
         behaviour = behaviour ?? AutoMonoBehaviour.Instantiate(group.gameObject);
         IEnumerator coroutine = StartFadeOut(group, waitDuration, fadeDuration, finishedCallback);
