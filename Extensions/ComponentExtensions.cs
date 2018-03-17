@@ -3,6 +3,13 @@
 public static class ComponentExtensions {
     // Have to use 'this' for Component Extensions.
 
+    // this.GetComponent<CustomController>("CustomerObject");
+    public static T GetComponent<T>(this Component component, string gameObjectName) {
+        var gameObject = GameObject.Find(gameObjectName);
+
+        return gameObject != null ? gameObject.GetComponent<T>() : default(T);
+    }
+
     // this.GetComponentInChild<SpriteRenderer>("Sprite");
     public static T GetComponentInChild<T>(this Component component, string childName) {
         var child = component.transform.FindFirstChildByName(childName);
@@ -23,6 +30,20 @@ public static class ComponentExtensions {
         var requiredComponent = component.GetComponent<T>();
         if (requiredComponent == null) {
             Debug.LogError(typeof(T).Name + " IS REQUIRED FOR " + component.gameObject.name);
+        }
+
+        return requiredComponent;
+    }
+
+    public static T GetRequiredComponent<T>(this Component component, string gameObjectName) {
+        var gameObject = GameObject.Find(gameObjectName);
+        if (gameObject == null) {
+            Debug.LogError(gameObjectName + " NOT FOUND IN SCENE");
+        }
+
+        var requiredComponent = gameObject.GetComponent<T>();
+        if (requiredComponent == null) {
+            Debug.LogError(typeof(T).Name + " IS REQUIRED FOR " + gameObjectName);
         }
 
         return requiredComponent;

@@ -7,17 +7,17 @@ public abstract class StatManager {
     LocalMessenger LocalMessenger = new LocalMessenger();
     #endregion
 
-    private Dictionary<string, int> Stats = new Dictionary<string, int>();
-    private Dictionary<string, StatBonus> PersistentStatBonuses = new Dictionary<string, StatBonus>();
-    private List<StatBonusProvider> TransientStatBonusProviders = new List<StatBonusProvider>();
+    private Dictionary<string, double> Stats = new Dictionary<string, double>();
+    private Dictionary<string, Stat> PersistentStats = new Dictionary<string, Stat>();
+    private List<StatProvider> TransientStatProviders = new List<StatProvider>();
 
 
-    public StatManager(List<StatBonusProvider> persistentStatBonusProviders, List<StatBonusProvider> transientStatBonusProviders) {
-        TransientStatBonusProviders = transientStatBonusProviders;
+    public StatManager(List<StatProvider> persistentStatBonusProviders, List<StatProvider> transientStatBonusProviders) {
+        TransientStatProviders = transientStatBonusProviders;
 
         // Preload PersistentStatBonuses
         foreach (var provider in persistentStatBonusProviders) {
-            var bonuses = provider.GetStatBonuses();
+            var bonuses = provider.GetStats();
             foreach (var statBonus in bonuses) {
                 AddPersistent(statBonus);
             }
@@ -30,15 +30,15 @@ public abstract class StatManager {
         Stats.Clear();
 
         // Preloading all of the PersistentStatBonuses into the stats
-        foreach (var statBonusPair in PersistentStatBonuses) {
+        foreach (var statBonusPair in PersistentStats) {
             var statBonus = statBonusPair.Value;
-            Add(statBonus.Name, (int)statBonus.Value);
+            Add(statBonus.Name, statBonus.Value);
         }
 
-        foreach (var provider in TransientStatBonusProviders) {
-            var bonuses = provider.GetStatBonuses();
-            foreach (var statBonus in bonuses) {
-                Add(statBonus.Name, (int)statBonus.Value);
+        foreach (var provider in TransientStatProviders) {
+            var stats = provider.GetStats();
+            foreach (var stat in stats) {
+                Add(stat.Name, (int)stat.Value);
             }
         }
 
@@ -50,15 +50,15 @@ public abstract class StatManager {
     protected abstract void SpecificRecalulate();
 
     #region Stat Methods
-    public int Get(string name) {
+    public double Get(string name) {
         return Stats.Get(name, 0);
     }
 
-    public void Set(string name, int value) {
+    public void Set(string name, double value) {
         Stats.Set(name, value);
     }
 
-    public void Add(string name, int value) {
+    public void Add(string name, double value) {
         var currentValue = Get(name);
         Stats.Set(name, currentValue + value);
     }
@@ -68,12 +68,12 @@ public abstract class StatManager {
     // The goal of Persistent StatBonuses is to allow them to be passed by reference, which allows other classes
     // to adjust them permanently. These StatBonuses can then be saved to the file system via the statBonusProviders
     // that provided them.
-    public void AddPersistent(StatBonus statBonus) {
-        PersistentStatBonuses.Add(statBonus.Name, statBonus);
+    public void AddPersistent(Stat stat) {
+        PersistentStats.Add(stat.Name, stat);
     }
 
-    public StatBonus GetPersistentReference(string name) {
-        return PersistentStatBonuses.Get(name);
+    public Stat GetPersistentReference(string name) {
+        return PersistentStats.Get(name);
     }
     #endregion
 
@@ -89,16 +89,16 @@ public abstract class StatManager {
 }
 
 [Serializable]
-public class StatBonus {
+public class Stat {
     public string Name;
     public double Value;
 
-    public StatBonus(string name, double value) {
+    public Stat(string name, double value) {
         Name = name;
         Value = value;
     }
 }
 
-public interface StatBonusProvider {
-    List<StatBonus> GetStatBonuses();
+public interface StatProvider {
+    List<Stat> GetStats();
 }
