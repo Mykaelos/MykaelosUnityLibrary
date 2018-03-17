@@ -90,13 +90,37 @@ public abstract class StatManager {
 
 [Serializable]
 public class Stat {
+    #region LocalMessenger
+    public const string CHANGED = "CHANGED";
+
+    private LocalMessenger LocalMessenger {
+        get { return _LocalMessenger == null ? _LocalMessenger = new LocalMessenger() : _LocalMessenger; }
+    }
+    [NonSerialized]
+    private LocalMessenger _LocalMessenger;
+    #endregion
+
     public string Name;
-    public double Value;
+    public double Value {
+        get { return _Value; }
+        set { _Value = value; LocalMessenger.Fire(CHANGED, new object[] { }); }
+    }
+    private double _Value;
 
     public Stat(string name, double value) {
         Name = name;
-        Value = value;
+        _Value = value;
     }
+
+    #region LocalMessenger Methods
+    public void On(string message, Callback callback) {
+        LocalMessenger.On(message, callback);
+    }
+
+    public void Un(string message, Callback callback) {
+        LocalMessenger.Un(message, callback);
+    }
+    #endregion
 }
 
 public interface StatProvider {
