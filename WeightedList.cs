@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class WeightedList<T> {
@@ -10,7 +9,10 @@ public class WeightedList<T> {
     //http://stackoverflow.com/questions/3120035/indexing-count-of-buckets/3120179#3120179
     //http://stackoverflow.com/questions/4511331/randomly-selecting-an-element-from-a-weighted-list
 
+    
     public WeightedList() { }
+
+    public WeightedList(WeightedList<T> list) : this(new List<T>(list.Items), new List<float>(list.Weights)) { }
 
     public WeightedList(Dictionary<T, float> items) : this(new List<T>(items.Keys), new List<float>(items.Values)) { }
 
