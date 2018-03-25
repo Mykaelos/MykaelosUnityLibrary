@@ -94,7 +94,7 @@ public class Stat {
     #region LocalMessenger
     public const string CHANGED = "CHANGED";
 
-    private LocalMessenger LocalMessenger {
+    public LocalMessenger LocalMessenger {
         get { return _LocalMessenger == null ? _LocalMessenger = new LocalMessenger() : _LocalMessenger; }
     }
     [NonSerialized]
@@ -104,7 +104,12 @@ public class Stat {
     public string Name;
     public double Value {
         get { return _Value; }
-        set { _Value = value; LocalMessenger.Fire(CHANGED, new object[] { }); /*Debug.Log("{0}: {1}".FormatWith(Name, _Value));*/ }
+        set {
+            var previousValue = _Value;
+            _Value = value;
+            LocalMessenger.Fire(CHANGED, new object[] { Name, _Value, _Value - previousValue }); 
+            //Debug.Log("{0}: {1}".FormatWith(Name, _Value));
+        }
     }
     private double _Value;
 
