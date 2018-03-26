@@ -16,6 +16,10 @@ public abstract class StatManager {
     public StatManager(List<StatProvider> persistentStatBonusProviders, List<StatProvider> transientStatBonusProviders) {
         TransientStatProviders = transientStatBonusProviders;
 
+        foreach (var provider in TransientStatProviders) {
+            provider.ConnectReference(this);
+        }
+
         // Preload PersistentStatBonuses
         foreach (var provider in persistentStatBonusProviders) {
             var bonuses = provider.GetStats();
@@ -131,4 +135,5 @@ public class Stat {
 
 public interface StatProvider {
     List<Stat> GetStats();
+    void ConnectReference(StatManager statManager);
 }
