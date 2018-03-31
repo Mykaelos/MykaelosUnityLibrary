@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
 public class PopupController : MonoBehaviour {
+    public float Border = 16;
+    public float PushSpeed = 10;
     private float FadeDuration = 1;
     private float MaxLife = 5;
-    private float PushSpeed = 5;
-    private float Border = 10;
 
     private float LifeStarted = float.MaxValue - 10000;
     private float ParentBottom;//negative
@@ -14,8 +13,6 @@ public class PopupController : MonoBehaviour {
     private CanvasGroup Group;
     private Popup Parent;
 
-
-    
 
     private float DurationRemaining {
         get { return LifeStarted + MaxLife - Time.time; }
@@ -49,12 +46,12 @@ public class PopupController : MonoBehaviour {
         //return transform.localPosition.y - Height / 2f;
     }
 
-    public void Awake() {
+    private void Awake() {
         Group = this.GetComponent<CanvasGroup>();
         LifeStarted = Time.time;
     }
 
-    public void FixedUpdate() {
+    private void FixedUpdate() {
         ConstrainPosition();
         Group.alpha = Mathf.Lerp(0, 1, (DurationRemaining >= FadeDuration ? 1 : DurationRemaining / FadeDuration));
 
@@ -78,7 +75,7 @@ public class PopupController : MonoBehaviour {
         Destroy();
     }
 
-    public void Destroy() {
+    private void Destroy() {
         Parent.Remove(this.gameObject);
         Destroy(this.gameObject);
     }
