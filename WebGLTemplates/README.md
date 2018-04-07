@@ -1,1 +1,0 @@
-This WebGLTemplates folder needs to be copied into the root assets/ folder for these templates to be included in the player settings.
