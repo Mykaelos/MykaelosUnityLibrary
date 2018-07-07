@@ -58,6 +58,23 @@ public static class TransformExtensions {
         return null;
     }
 
+    public static Transform FindFirstChildThatContainsName(this Transform transform, string name) {
+        foreach (Transform child in transform) {
+            if (child.name.Contains(name)) {
+                return child;
+            }
+        }
+
+        foreach (Transform child in transform) {
+            var returnedChild = child.FindFirstChildByName(name);
+            if (returnedChild != null && returnedChild.name.Contains(name)) {
+                return returnedChild;
+            }
+        }
+
+        return null;
+    }
+
     // Looks for a transform by name starting with siblings, then looking in the parents all the way up.
     // This has the obvious risk of searching every object at the top level, so use wisely.
     public static Transform FindSiblingOrParent(this Transform transform, string name) {
@@ -71,6 +88,24 @@ public static class TransformExtensions {
             }
 
             return parent.FindSiblingOrParent(name);
+        }
+
+        return null;
+    }
+
+    // Looks for a transform by name starting with siblings, then looking in the parents all the way up.
+    // This has the obvious risk of searching every object at the top level, so use wisely.
+    public static Transform FindSiblingOrParentThatContainsName(this Transform transform, string name) {
+        if (transform.parent != null) {
+            var parent = transform.parent;
+
+            foreach (Transform child in parent) {
+                if (child.name.Contains(name)) {
+                    return child;
+                }
+            }
+
+            return parent.FindSiblingOrParentThatContainsName(name);
         }
 
         return null;
