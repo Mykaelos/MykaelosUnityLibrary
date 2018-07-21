@@ -61,4 +61,16 @@ public static class ListExtension {
         list[index1] = list[index2];
         list[index2] = temp;
     }
+
+    public static void RemoveFirst<T>(this List<T> list) {
+        if (!list.IsNullOrEmpty()) {
+            list.RemoveAt(0);
+        }
+    }
+
+    public static void RemoveLast<T>(this List<T> list) {
+        if (!list.IsNullOrEmpty()) {
+            list.RemoveAt(list.Count - 1);
+        }
+    }
 }
