@@ -21,6 +21,7 @@ sysinfo.txt
 /*.unityproj
 /*.booproj
 /.vs/**/.suo
+/.vs/**/Server/sqlite3/
  
 # ============ #
 # OS generated #
