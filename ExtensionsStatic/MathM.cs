@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class MathM {
     public static int MinimumClamped(int value, int minimum) {
