@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public static class TransformExtensions {
 
@@ -56,6 +57,24 @@ public static class TransformExtensions {
         }
 
         return null;
+    }
+
+    public static List<Transform> FindChildrenByName(this Transform transform, string name) {
+        List<Transform> children = new List<Transform>();
+        foreach (Transform child in transform) {
+            if (name.Equals(child.name)) {
+                children.Add(child);
+            }
+        }
+
+        foreach (Transform child in transform) {
+            var returnedChildren = child.FindChildrenByName(name);
+            if (!returnedChildren.IsNullOrEmpty()) {
+                children.AddRange(returnedChildren);
+            }
+        }
+
+        return children;
     }
 
     public static Transform FindFirstChildThatContainsName(this Transform transform, string name) {
