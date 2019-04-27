@@ -38,6 +38,10 @@ public static class StringExtensions {
         return list;
     }
 
+    /**
+     * Quick and easy formatting with a string literal.
+     * For example: "I like you {0}".FormatWith("a lot!");
+     */
     public static string FormatWith(this string self, params object[] args) {
         if (self == null) {
             return null;

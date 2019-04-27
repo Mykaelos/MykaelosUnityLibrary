@@ -2,10 +2,10 @@
 using System.Collections;
 
 public static class RichTextExtension {
-    private static string ColorFormat = "<color={0}>{1}</color>";
-    private static string SizeFormat = "<size={0}>{1}</size>";
-    private static string ItalicsFormat = "<i>{0}</i>";
-    private static string BoldFormat = "<b>{0}</b>";
+    private static readonly string ColorFormat = "<color={0}>{1}</color>";
+    private static readonly string SizeFormat = "<size={0}>{1}</size>";
+    private static readonly string ItalicsFormat = "<i>{0}</i>";
+    private static readonly string BoldFormat = "<b>{0}</b>";
 
 
     //color can be the color name from below (red), or just the hex value (#ff0000)
