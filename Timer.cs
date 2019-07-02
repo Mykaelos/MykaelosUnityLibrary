@@ -6,12 +6,12 @@ public class Timer {
     public bool FireOnce = false;
     public bool HasFired = false;
 
-
-    public Timer(float delay = 1, bool fireOnce = false, bool fireImmediately = false) {
+    // Pass in Time.time for startingTime if not firing immediately. 
+    public Timer(float delay = 1, bool fireOnce = false, bool fireImmediately = false, float startingTime = 0) {
         Delay = delay;
         FireOnce = fireOnce;
 
-        Last = fireImmediately ? Time.time - Delay - 0.1f: Time.time;
+        Last = fireImmediately ? startingTime - Delay - 0.1f: startingTime;
     }
 
     public bool Check() {
