@@ -16,7 +16,7 @@ public class SceneChangeButtonController : MonoBehaviour {
     void OnButtonClick() {
         if (!LoadingNextScene) {
             LoadingNextScene = true;
-            TransitionManager.FadeOut(1f, FadeOutColor, delegate {
+            TransitionManager.FadeOut(FadeOutDuration, FadeOutColor, delegate {
                 SceneManager.LoadScene(DestinationSceneName);
                 LoadingNextScene = false;
             });
