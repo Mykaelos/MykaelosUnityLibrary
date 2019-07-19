@@ -35,6 +35,8 @@ public class LerpHelper {
     }
 
 
+    /* Accelerates at beginning, decelerates at the end. 
+     */
     public static float SmoothStep(float x) {
         return x * x * (3 - 2 * x);
     }

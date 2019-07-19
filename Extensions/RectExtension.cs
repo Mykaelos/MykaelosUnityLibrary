@@ -52,6 +52,13 @@ public static class RectExtension {
         return position;
     }
 
+    public static Vector2 WrapRect(this Rect rect, Vector2 position) {
+        float x = (position.x > rect.xMax) ? rect.xMin : (position.x < rect.xMin) ? rect.xMax : position.x;
+        float y = (position.y > rect.yMax) ? rect.yMin : (position.y < rect.yMin) ? rect.yMax : position.y;
+
+        return new Vector2(x, y);
+    }
+
     public static List<Vector2> GetTopEdgeVector2s(this Rect rect) {
         List<Vector2> topEdgeVector2s = new List<Vector2>();
         for (int i = 0; i <= rect.width; i++) {

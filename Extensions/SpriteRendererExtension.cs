@@ -4,6 +4,11 @@ using System;
 
 public static class SpriteRendererExtension {
 
+    /// <summary>
+    /// Sets the Alpha of the sprite renderer.
+    /// Alpha component of the color (0 is transparent, 1 is opaque).
+    /// </summary>
+    /// <param name="alpha">Alpha component of the color (0 is transparent, 1 is opaque).</param>
     public static void SetAlpha(this SpriteRenderer spriteRenderer, float alpha) {
         Color temp = spriteRenderer.color;
         temp.a = alpha;
