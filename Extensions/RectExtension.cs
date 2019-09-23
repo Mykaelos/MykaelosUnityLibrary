@@ -35,6 +35,11 @@ public static class RectExtension {
         return rect;
     }
 
+    // Adds/subtracts from the width and height from the current center of the rect.
+    public static Rect ScaleAreaFromCenter(this Rect rect, Vector2 sizeChange) {
+        return rect.Center(rect.center, rect.size + sizeChange);
+    }
+
     public static Vector3 Clamp(this Rect rect, Vector3 position) {
         if (position.x < rect.xMin) {
             position.x = rect.xMin;
