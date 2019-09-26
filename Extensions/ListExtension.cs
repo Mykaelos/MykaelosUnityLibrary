@@ -3,6 +3,16 @@ using System.Collections.Generic;
 
 public static class ListExtension {
 
+    // Randomly shuffles the list.
+    // Borrowed from https://stackoverflow.com/a/1262619
+    public static void Shuffle<T>(this List<T> list) {
+        int x = list.Count;
+        while (x > 1) {
+            x--;
+            list.Swap(Random.Range(0, x + 1), x);
+        }
+    }
+
     public static T RandomElement<T>(this List<T> list) {
         if (list.Count == 0) {
             return default(T);
