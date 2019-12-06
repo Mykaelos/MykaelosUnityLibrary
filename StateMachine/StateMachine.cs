@@ -2,14 +2,15 @@
 using UnityEngine;
 
 public class StateMachine : MonoBehaviour {
-    Dictionary<string, StateMachineState> States = new Dictionary<string, StateMachineState>();
-    StateMachineState CurrentState;
+    Dictionary<string, IStateMachineState> States = new Dictionary<string, IStateMachineState>();
+    IStateMachineState CurrentState;
     public string CurrentStateName {
-        get { return CurrentState == null ? "" : CurrentState.Name; }
+        get { return CurrentState == null ? "" : CurrentState.GetName(); }
     }
 
 
-    public static StateMachine Initialize(GameObject gameObject, List<StateMachineState> states, string initialState = null) {
+    // Static Initializer to create or update a StateMachine on a GameObject.
+    public static StateMachine Initialize(GameObject gameObject, List<IStateMachineState> states, string initialState = null) {
         StateMachine machine;
         if (gameObject.GetComponent<StateMachine>() != null) {
             machine = gameObject.GetComponent<StateMachine>();
@@ -19,31 +20,38 @@ public class StateMachine : MonoBehaviour {
             machine = gameObject.AddComponent<StateMachine>();
         }
 
-        machine.States.Clear();
-        foreach (var state in states) {
-            machine.States.Add(state.Name, state);
-            state.Parent = machine;
-        }
-        if (initialState == null) { // Default to first state if null.
-            initialState = states[0].Name;
-        }
-
-        machine.SwitchState(initialState);
+        machine.Initialize(states, initialState);
 
         return machine;
     }
 
+    // Instanced initializer to update a StateMachine.
+    public StateMachine Initialize(List<IStateMachineState> states, string initialState = null) {
+        States.Clear();
+        foreach (var state in states) {
+            States.Add(state.GetName(), state);
+            state.SetParent(this);
+        }
+        if (initialState == null && states.Count > 0) { // Default to first state if null.
+            initialState = states[0].GetName();
+        }
+
+        SwitchState(initialState);
+
+        return this;
+    }
+
     void Update() {
         if (CurrentState != null) {
-            if (CurrentState.Check != null) {
-                string nextStateName = CurrentState.Check();
+            if (CurrentState.GetCheckFn() != null) {
+                string nextStateName = CurrentState.GetCheckFn()();
                 if (nextStateName != null) {
                     SwitchState(nextStateName);
                 }
             }
 
-            if (CurrentState.Update != null) {
-                CurrentState.Update();
+            if (CurrentState.GetUpdateFn() != null) {
+                CurrentState.GetUpdateFn()();
             }
         }
     }
@@ -53,20 +61,20 @@ public class StateMachine : MonoBehaviour {
             return;
         }
 
-        StateMachineState nextState = States.Get(nextStateName);
+        IStateMachineState nextState = States.Get(nextStateName);
 
         if (nextState == null) {
             Debug.Log(string.Format("StateMachine on {0} could not switch to {1}.", gameObject.name, nextStateName));
             return;
         }
 
-        if (CurrentState != null && CurrentState.End != null) {
-            CurrentState.End();
+        if (CurrentState != null && CurrentState.GetEndFn() != null) {
+            CurrentState.GetEndFn()();
         }
 
         CurrentState = nextState;
-        if (CurrentState.Start != null) {
-            CurrentState.Start();
+        if (CurrentState.GetStartFn() != null) {
+            CurrentState.GetStartFn()();
         }
     }
 }
