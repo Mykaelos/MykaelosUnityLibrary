@@ -42,7 +42,7 @@ public static class TransformExtensions {
         return ((RectTransform)transform).rect;
     }
 
-    public static void RemoveAllChildren(this Transform transform) {
+    public static void DestroyAllChildren(this Transform transform) {
         foreach (Transform child in transform) {
             GameObject.Destroy(child.gameObject);
         }
