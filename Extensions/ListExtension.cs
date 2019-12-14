@@ -72,6 +72,10 @@ public static class ListExtension {
         list[index2] = temp;
     }
 
+    public static T First<T>(this List<T> list) {
+        return !list.IsNullOrEmpty() ? list[0] : default(T);
+    }
+
     public static void RemoveFirst<T>(this List<T> list) {
         if (!list.IsNullOrEmpty()) {
             list.RemoveAt(0);
