@@ -40,7 +40,17 @@ public static class StringExtensions {
 
     /**
      * Quick and easy formatting with a string literal.
-     * For example: "I like you {0}".FormatWith("a lot!");
+     * 
+     * https://docs.microsoft.com/en-us/dotnet/api/system.string.format?view=netframework-4.8#the-format-item
+     * {index[,alignment][:formatString]}
+     * index: Zero based index of argument.
+     * alignment: Optional; spaces-added field size where positive is right aligned, and negative is left aligned.
+     * formatString: Formatting applied to the string. N0 for number with no decimals, 
+     *  https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings
+     *  https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings
+     *  
+     * For example: 
+     *  "I {0} you {1} At least, {2:N0} hearts.".FormatWith("like", "a lot!", 42.7f); // Cuts off the decimal.
      */
     public static string FormatWith(this string self, params object[] args) {
         if (self == null) {
