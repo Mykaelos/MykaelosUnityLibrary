@@ -10,7 +10,7 @@ public class StateMachine : MonoBehaviour {
 
 
     // Static Initializer to create or update a StateMachine on a GameObject.
-    public static StateMachine Initialize(GameObject gameObject, List<IStateMachineState> states, string initialState = null) {
+    public static StateMachine Initialize<T>(GameObject gameObject, List<T> states, string initialState = null) where T : IStateMachineState {
         StateMachine machine;
         if (gameObject.GetComponent<StateMachine>() != null) {
             machine = gameObject.GetComponent<StateMachine>();
@@ -26,7 +26,7 @@ public class StateMachine : MonoBehaviour {
     }
 
     // Instanced initializer to update a StateMachine.
-    public StateMachine Initialize(List<IStateMachineState> states, string initialState = null) {
+    public StateMachine Initialize<T>(List<T> states, string initialState = null) where T : IStateMachineState {
         States.Clear();
         foreach (var state in states) {
             States.Add(state.GetName(), state);
