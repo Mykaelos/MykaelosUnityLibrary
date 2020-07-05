@@ -1,0 +1,11 @@
+GameViewSizes
+
+The Game view inside of the Unity editor has a little drop down menu that lists Available Resolutions and Aspect Ratios to show the Game view in.
+This menu changes based on the current build type that the project is set to, so it will only show Android Resolution/Aspect Ratios when set to build for Android.
+
+The GameViewSizes.asset is where the custom data lives, and it's based on the user/editor, and not the specific project.
+Windows Example (Unity 2018.3.0f2): C:\Users\<USER>\AppData\Roaming\Unity\Editor-5.x\Preferences\GameViewSizes.asset
+
+TODO:
+- Create List of Custom Sizes/Resolutions/Aspect Ratios that should be tested based on Android's most popular screen sizes.
+- Add finished GameViewSizes.asset when moving between computers.

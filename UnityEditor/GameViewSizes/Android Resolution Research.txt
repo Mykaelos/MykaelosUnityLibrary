@@ -1,0 +1,66 @@
+
+
+Most popular screen sizes/resolutions on Android phones [closed]
+https://stackoverflow.com/questions/6272384/most-popular-screen-sizes-resolutions-on-android-phones
+
+
+Android Distribution dashboard
+https://developer.android.com/about/dashboards/index.html#Screens
+
+hdpi	20.6%	~240dpi
+xhdpi	43.5%	~320dpi
+xxhdpi	27.9%	~480dpi
+
+
+Device Metrics
+https://material.io/resources/devices/
+18.5:9		Samsung Galaxy S8
+16:9
+5:3			Nexus 4
+16:10
+3:2			Surface Pro, iPhone, Chromebook Pixel
+4:3			iPad
+5:4 		Watch
+1:1, 65:64, 33:32, 32:29 	Watch
+
+
+
+Unity
+https://web.archive.org/web/20170718023014/https://hwstats.unity3d.com/mobile/display-android.html
+
+Display Resolutions (2017-3):
+
+1280 x 720 	(16:9): 	28.9%
+1920 x 1080	(16:9): 	21.4%
+800 x 480	(5:3) : 	10.3%
+854 x 480(1.77916): 	9.7%
+960 x 540	(16:9): 	8.9%
+1024 x 600(1.7066): 	7.8%
+1280 x 800 (16:10): 	5.0%
+2560 x 1440	(16:9): 	2.4%
+480 x 320	(3:2) : 	1.2%
+1920 x 1200(16:10): 	0.8%
+1024 x 768	(4:3) : 	0.8%
+
+Display Aspect Ratios (2017-3):
+
+16:9	(1.778): 	72.4%   
+5:3		(1.667): 	18.2%
+16:10	(1.600): 	6.2%
+4:3		(1.333): 	1.7%
+3:2		(1.500): 	1.2%
+5:4		(1.250): 	0.1%
+
+
+
+Support different pixel densities
+https://developer.android.com/training/multiscreen/screendensities
+
+
+
+
+
+
+Device examples:
+
+Pixel 2XL 2880X1440 (2:1)

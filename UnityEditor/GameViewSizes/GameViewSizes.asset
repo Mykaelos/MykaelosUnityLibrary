@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 61
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 1
+  m_Script: {fileID: 12330, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Standalone:
+    m_Custom:
+    - m_BaseText: Smaller
+      m_SizeType: 1
+      m_Width: 800
+      m_Height: 600
+    - m_BaseText: 
+      m_SizeType: 1
+      m_Width: 600
+      m_Height: 800
+    - m_BaseText: 480*800
+      m_SizeType: 1
+      m_Width: 480
+      m_Height: 800
+    - m_BaseText: 
+      m_SizeType: 1
+      m_Width: 1080
+      m_Height: 1920
+    - m_BaseText: 
+      m_SizeType: 1
+      m_Width: 1024
+      m_Height: 576
+    - m_BaseText: 
+      m_SizeType: 1
+      m_Width: 1920
+      m_Height: 1080
+  m_iOS:
+    m_Custom: []
+  m_Android:
+    m_Custom:
+    - m_BaseText: 16:9 Portrait
+      m_SizeType: 0
+      m_Width: 9
+      m_Height: 16
+    - m_BaseText: 16:9 Landscape
+      m_SizeType: 0
+      m_Width: 16
+      m_Height: 9
+    - m_BaseText: 1080 Portrait
+      m_SizeType: 1
+      m_Width: 1080
+      m_Height: 1920
+    - m_BaseText: 1440 Portrait
+      m_SizeType: 1
+      m_Width: 1440
+      m_Height: 2560
+    - m_BaseText: 800 Portrait 10:16
+      m_SizeType: 1
+      m_Width: 800
+      m_Height: 1280
+    - m_BaseText: 1536 Portrait 3:4
+      m_SizeType: 1
+      m_Width: 1536
+      m_Height: 2048
+    - m_BaseText: 480 Portrait 9:16
+      m_SizeType: 1
+      m_Width: 480
+      m_Height: 854
+    - m_BaseText: 1080 Landscape
+      m_SizeType: 1
+      m_Width: 1920
+      m_Height: 1080
+    - m_BaseText: 1440 Landscape
+      m_SizeType: 1
+      m_Width: 2560
+      m_Height: 1440
+    - m_BaseText: 2:1 Landscape
+      m_SizeType: 1
+      m_Width: 2880
+      m_Height: 1440
+    - m_BaseText: BANANAPHONE42
+      m_SizeType: 1
+      m_Width: 10
+      m_Height: 10
+  m_HMD:
+    m_Custom: []
