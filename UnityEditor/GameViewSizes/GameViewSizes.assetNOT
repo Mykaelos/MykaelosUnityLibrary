@@ -42,49 +42,97 @@ MonoBehaviour:
     m_Custom: []
   m_Android:
     m_Custom:
-    - m_BaseText: 16:9 Portrait
+# Ratio Portrait
+    - m_BaseText: P 16:10 1.60
+      m_SizeType: 0
+      m_Width: 10
+      m_Height: 16
+    - m_BaseText: P 16:9 1.78
       m_SizeType: 0
       m_Width: 9
       m_Height: 16
-    - m_BaseText: 16:9 Landscape
+    - m_BaseText: P 18:9 2.00
+      m_SizeType: 0
+      m_Width: 9
+      m_Height: 18
+    - m_BaseText: P 18.5:9 2.06
+      m_SizeType: 0
+      m_Width: 9
+      m_Height: 18.5
+    - m_BaseText: P 19:9 2.11
+      m_SizeType: 0
+      m_Width: 9
+      m_Height: 19
+# Ratio Landscape
+    - m_BaseText: L 16:10 1.60
+      m_SizeType: 0
+      m_Width: 16
+      m_Height: 10
+    - m_BaseText: L 16:9 1.78
       m_SizeType: 0
       m_Width: 16
       m_Height: 9
-    - m_BaseText: 1080 Portrait
-      m_SizeType: 1
-      m_Width: 1080
-      m_Height: 1920
-    - m_BaseText: 1440 Portrait
-      m_SizeType: 1
-      m_Width: 1440
-      m_Height: 2560
-    - m_BaseText: 800 Portrait 10:16
+    - m_BaseText: L 18:9 2.00
+      m_SizeType: 0
+      m_Width: 18
+      m_Height: 9
+    - m_BaseText: L 18.5:9 2.06
+      m_SizeType: 0
+      m_Width: 18.5
+      m_Height: 9
+    - m_BaseText: L 19:9 2.11
+      m_SizeType: 0
+      m_Width: 19
+      m_Height: 9
+#Pixel Portrait
+    - m_BaseText: P 800x1280 16:10 1.60 Amazon Fire HD 8(7th)
       m_SizeType: 1
       m_Width: 800
       m_Height: 1280
-    - m_BaseText: 1536 Portrait 3:4
+    - m_BaseText: P 1080x1920 16:9 1.78 Google Pixel 2
       m_SizeType: 1
-      m_Width: 1536
-      m_Height: 2048
-    - m_BaseText: 480 Portrait 9:16
+      m_Width: 1080
+      m_Height: 1920
+    - m_BaseText: P 1440x2880 18:9 2.00 Google Pixel 2 XL
       m_SizeType: 1
-      m_Width: 480
-      m_Height: 854
-    - m_BaseText: 1080 Landscape
+      m_Width: 1440
+      m_Height: 2880
+    - m_BaseText: P 1440x2960 18.5:9 2.056 Samsung Galaxy S8
+      m_SizeType: 1
+      m_Width: 1440
+      m_Height: 2960
+    - m_BaseText: P 1080x2280 19:9 2.11 Google Pixel 3a
+      m_SizeType: 1
+      m_Width: 1080
+      m_Height: 2280
+    - m_BaseText: P 1440x3040 19:9 2.11 Samsung Galaxy S10
+      m_SizeType: 1
+      m_Width: 1440
+      m_Height: 3040
+#Pixel Landscape
+    - m_BaseText: L 1280x800 16:10 1.60 Amazon Fire HD 8(7th)
+      m_SizeType: 1
+      m_Width: 1280
+      m_Height: 800
+    - m_BaseText: L 1920x1080 16:9 1.78 Google Pixel 2
       m_SizeType: 1
       m_Width: 1920
       m_Height: 1080
-    - m_BaseText: 1440 Landscape
-      m_SizeType: 1
-      m_Width: 2560
-      m_Height: 1440
-    - m_BaseText: 2:1 Landscape
+    - m_BaseText: L 2880x1440 18:9 2.00 Google Pixel 2 XL
       m_SizeType: 1
       m_Width: 2880
       m_Height: 1440
-    - m_BaseText: BANANAPHONE42
+    - m_BaseText: L 2960x1440 18.5:9 2.056 Samsung Galaxy S8
       m_SizeType: 1
-      m_Width: 10
-      m_Height: 10
+      m_Width: 2960
+      m_Height: 1440
+    - m_BaseText: L 2280x1080 19:9 2.11 Google Pixel 3a
+      m_SizeType: 1
+      m_Width: 2280
+      m_Height: 1080
+    - m_BaseText: L 3040x1440 19:9 2.11 Samsung Galaxy S10
+      m_SizeType: 1
+      m_Width: 3040
+      m_Height: 1440
   m_HMD:
     m_Custom: []

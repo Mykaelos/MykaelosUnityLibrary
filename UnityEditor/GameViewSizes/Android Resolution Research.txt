@@ -1,10 +1,11 @@
-
+***************************************************************************************************
+*** Research and Data:
 
 Most popular screen sizes/resolutions on Android phones [closed]
 https://stackoverflow.com/questions/6272384/most-popular-screen-sizes-resolutions-on-android-phones
 
 
-Android Distribution dashboard
+*** Android Distribution dashboard
 https://developer.android.com/about/dashboards/index.html#Screens
 
 hdpi	20.6%	~240dpi
@@ -12,7 +13,7 @@ xhdpi	43.5%	~320dpi
 xxhdpi	27.9%	~480dpi
 
 
-Device Metrics
+*** Device Metrics
 https://material.io/resources/devices/
 18.5:9		Samsung Galaxy S8
 16:9
@@ -24,8 +25,7 @@ https://material.io/resources/devices/
 1:1, 65:64, 33:32, 32:29 	Watch
 
 
-
-Unity
+*** Unity
 https://web.archive.org/web/20170718023014/https://hwstats.unity3d.com/mobile/display-android.html
 
 Display Resolutions (2017-3):
@@ -57,10 +57,55 @@ Support different pixel densities
 https://developer.android.com/training/multiscreen/screendensities
 
 
+https://en.wikipedia.org/wiki/Display_aspect_ratio
 
 
 
+***************************************************************************************************
+*** Thoughts:
+Based on some of the modern phones coming out, it looks like phones are trending to be longer and longer, pushing 2x in length.
+When designing UI layout, assume one standard dimension, and then assume the other dimension will vary wildly.
 
-Device examples:
 
-Pixel 2XL 2880X1440 (2:1)
+
+*** Ratio based
+16:10 	1.60
+16:9  	1.78
+18:9	2.00
+18.5:9	2.06
+19:9	2.11
+
+Probably not:
+5:3		1.67
+4:3		1.33
+3:2		1.5
+
+
+*** Pixel based
+Amazon Fire HD 8(7th)	1280x800	(16:10, 1.60)
+Google Pixel 2			1920x1080	(16:9, 1.78)
+Google Pixel 2XL		2880X1440	(18:9, 2.00)
+Samsung Galaxy S8		2960x1440	(18.5:9, 2.056)
+Google Pixel 3a			2280x1080	(19:9, 2.11)
+Samsung Galaxy S10		3040×1440	(19:9, 2.11)
+
+
+***************************************************************************************************
+*** Device examples:
+
+Google Pixel 2XL		2880X1440 (18:9, 2.00)
+Google Pixel 2			1920x1080 (16:9, 1.78)
+Google Pixel 3a			2280x1080 (19:9, 2.11)
+
+Amazon Fire HD 8 2017(7th gen) 1280 × 800 (16:10, 1.6)
+
+Samsung Galaxy S10		3040×1440(2.111)  	S10e	2280×1080 (2.111)
+Samsung Galaxy S8		2960x1440			S8+		2960x1440 (18.5:9, 2.056)
+Samsung Galaxy S9		2960x1440			S9+		2960x1440
+Samsung Galaxy S7		2560x1440			S7e		2560x1440 (16:9, 1.78)
+Samsung Galaxy Note 8	2960x1440			
+Samsung Galaxy Note 9	2960x1440
+
+OnePlus 8 Pro			3168x1440 (19.8:9, 2.20)
+Samsung Galaxy S20 Plus	3200x1440 (20:9, 2.22)
+Moto G Power			2300x1080 (2.129)
