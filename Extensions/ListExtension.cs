@@ -76,6 +76,10 @@ public static class ListExtension {
         return !list.IsNullOrEmpty() ? list[0] : default(T);
     }
 
+    public static T Last<T>(this List<T> list) {
+        return !list.IsNullOrEmpty() ? list[list.Count - 1] : default(T);
+    }
+
     public static void RemoveFirst<T>(this List<T> list) {
         if (!list.IsNullOrEmpty()) {
             list.RemoveAt(0);
