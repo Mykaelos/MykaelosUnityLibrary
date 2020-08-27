@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Text;
 
 public static class ListExtension {
 
     // Randomly shuffles the list.
-    // Borrowed from https://stackoverflow.com/a/1262619
+    // Borrowed from https://stackoverflow.com/a/1262619.
     public static void Shuffle<T>(this List<T> list) {
         int x = list.Count;
         while (x > 1) {
@@ -89,6 +90,39 @@ public static class ListExtension {
     public static void RemoveLast<T>(this List<T> list) {
         if (!list.IsNullOrEmpty()) {
             list.RemoveAt(list.Count - 1);
+        }
+    }
+
+    // An actual implementation of List.ToString() that ToStrings all of the elements inside of the string.
+    // Borrowed with some clean up and generics from https://forum.unity.com/threads/noob-question-debug-log-a-list.761591/#post-5072021.
+    public static string ToString<T>(List<T> list, string delimiter = ",", int builderCapacity = 500) {
+        if (list == null) {
+            return "null";
+        }
+
+        int lastIndex = list.Count - 1;
+        if (lastIndex == -1) {
+            return "{}";
+        }
+
+        var builder = new StringBuilder(builderCapacity);
+        builder.Append('{');
+        for (int n = 0; n < lastIndex; n++) {
+            Append(list[n], builder);
+            builder.Append(delimiter);
+        }
+        Append(list[lastIndex], builder);
+        builder.Append('}');
+
+        return builder.ToString();
+    }
+
+    private static void Append<T>(T target, StringBuilder toBuilder) {
+        if (target == null) {
+            toBuilder.Append("null");
+        }
+        else {
+            toBuilder.Append(target.ToString());
         }
     }
 }
