@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [Serializable]
-public struct Point : System.IEquatable<Point> {
+public struct Point : IEquatable<Point> {
     public int X, Y;
 
 
@@ -27,6 +27,7 @@ public struct Point : System.IEquatable<Point> {
     public Point Normalize() {
         X = Mathf.Clamp(X, -1, 1);
         Y = Mathf.Clamp(Y, -1, 1);
+
         return this;
     }
 
@@ -38,13 +39,13 @@ public struct Point : System.IEquatable<Point> {
         if (other is Point) {
             return Equals((Point)other);
         }
+
         return false;
     }
 
     // http://stackoverflow.com/a/263416/1437653
     public override int GetHashCode() {
-        unchecked // Overflow is fine, just wrap
-        {
+        unchecked { // Overflow is fine, just wrap
             int hash = 17;
             hash = hash * 23 + X.GetHashCode();
             hash = hash * 23 + Y.GetHashCode();
