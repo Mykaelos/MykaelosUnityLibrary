@@ -48,6 +48,10 @@ public static class TransformExtensions {
         }
     }
 
+    public static void RemoveAll(this Transform transform) { // Alias for DestroyAllChildren to match Lists.
+        DestroyAllChildren(transform);
+    }
+
     public static Transform FindFirstChildByName(this Transform transform, string name) {
         foreach (Transform child in transform) {
             if (name.Equals(child.name)) {

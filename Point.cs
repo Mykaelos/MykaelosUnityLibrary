@@ -24,6 +24,10 @@ public struct Point : IEquatable<Point> {
         return new Vector2(X, Y);
     }
 
+    public Vector2 Vector3() {
+        return new Vector3(X, Y, 0);
+    }
+
     public Point Normalize() {
         X = Mathf.Clamp(X, -1, 1);
         Y = Mathf.Clamp(Y, -1, 1);
@@ -57,6 +61,13 @@ public struct Point : IEquatable<Point> {
     public static implicit operator Vector2(Point point) {
         return point.Vector2();
     }
+
+    // Implicit Vector3 conflicts with Rect.Contains() because it handles both Vector2 and Vector3:
+    // The call is ambiguous between the following methods or properties: 'Rect.Contains(Vector2)' and 'Rect.Contains(Vector3)'
+    // TODO Find a way around this. Use point.Vector3() for now.
+    //public static implicit operator Vector3(Point point) {
+    //    return point.Vector3();
+    //}
 
     public static implicit operator Point(Vector2 vector2) {
         return new Point((int)vector2.x, (int)vector2.y);
