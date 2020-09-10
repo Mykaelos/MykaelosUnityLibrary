@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class TouchPoint {
     public int ID;
@@ -47,6 +49,39 @@ public class TouchPoint {
             return Phase.Is(TouchPhase.Moved) || Phase.Is(TouchPhase.Stationary);
         }
     }
+
+    // Requires EventSystem in the scene and a GraphicsRaycaster on the Canvas.
+    public bool IsTouchingUI {
+        get {
+            return IsTouchingUICalculate();
+        }
+    }
+
+    #region TouchingUI
+    private bool AlreadyTouchingUICalcualted = false;
+    private bool IsTouchingUICalcualted = false;
+
+    private bool IsTouchingUICalculate() {
+        if (AlreadyTouchingUICalcualted) {
+            return IsTouchingUICalcualted;
+        }
+
+        if (EventSystem.current == null) {
+            Debug.LogError("IsTouchingUI: EventSystem MISSING! Cannot calculate if touching UI.");
+            return false;
+        }
+
+        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+        eventDataCurrentPosition.position = ScreenPosition;
+
+        var results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+        IsTouchingUICalcualted = results.IsNotEmpty();
+        AlreadyTouchingUICalcualted = true;
+
+        return IsTouchingUICalcualted;
+    }
+    #endregion
 
     public override string ToString() {
         return string.Format("{0}: ({1},{2}) {3}", ID, Position.x, Position.y, Phase);
