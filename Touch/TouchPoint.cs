@@ -61,6 +61,7 @@ public class TouchPoint {
     private bool AlreadyTouchingUICalcualted = false;
     private bool IsTouchingUICalcualted = false;
 
+    // Borrowed http://answers.unity.com/answers/1133912/view.html with some changes.
     private bool IsTouchingUICalculate() {
         if (AlreadyTouchingUICalcualted) {
             return IsTouchingUICalcualted;
