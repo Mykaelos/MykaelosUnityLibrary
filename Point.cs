@@ -16,15 +16,25 @@ public struct Point : IEquatable<Point> {
         Y = y;
     }
 
-    public Vector3 VectorXZ() {
-        return new Vector3(X, 0, Y);
+    public Point(Vector2 vector2, bool roundNearest = true) {
+        X = roundNearest ? Mathf.RoundToInt(vector2.x) : (int)vector2.x;
+        Y = roundNearest ? Mathf.RoundToInt(vector2.y) : (int)vector2.y;
+    }
+
+    public Point(Vector3 vector3, bool roundNearest = true) {
+        X = roundNearest ? Mathf.RoundToInt(vector3.x) : (int)vector3.x;
+        Y = roundNearest ? Mathf.RoundToInt(vector3.y) : (int)vector3.y;
     }
 
     public Vector2 Vector2() {
         return new Vector2(X, Y);
     }
 
-    public Vector2 Vector3() {
+    public Vector3 VectorXZ() {
+        return new Vector3(X, 0, Y);
+    }
+
+    public Vector3 Vector3() {
         return new Vector3(X, Y, 0);
     }
 
@@ -69,12 +79,19 @@ public struct Point : IEquatable<Point> {
     //    return point.Vector3();
     //}
 
+    // 2020/9/13 BREAKING CHANGE - converting vector2 to point will now use Mathf.RoundToInt() by default to
+    // solve minor float rounding issues in Vectors. It used to just cleave off the decimal with (int) casting,
+    // but a vast majority of the time when converting from Vector to Point, it would be better if the Vector
+    // "snapped" to the point. This originally came up because a Vector2 was reporting as (6.0, -1.0) via its
+    // ToString(), but the value was actually (5.98..., -1.0) which caused the Point(Vector2) to convert to (5, -1).
+    // Mathf.RoundToInt() fixes float rounding errors for this case.
     public static implicit operator Point(Vector2 vector2) {
-        return new Point((int)vector2.x, (int)vector2.y);
+        return new Point(vector2);
     }
 
+    // 2020/9/13 BREAKING CHANGE - converting vector2 to point will now use Mathf.RoundToInt() by default so solve minor float rounding issues in Vectors.
     public static implicit operator Point(Vector3 vector3) {
-        return new Point((int)vector3.x, (int)vector3.y);
+        return new Point(vector3);
     }
 
     public static bool operator ==(Point term1, Point term2) {
