@@ -2,11 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// *What do I do?*
 public class #SCRIPTNAME# : MonoBehaviour {
 
-
-
-    // TODO
-    // 
 }
