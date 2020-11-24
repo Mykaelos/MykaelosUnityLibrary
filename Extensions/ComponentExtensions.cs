@@ -39,6 +39,7 @@ public static class ComponentExtensions {
         var gameObject = GameObject.Find(gameObjectName);
         if (gameObject == null) {
             Debug.LogError(gameObjectName + " NOT FOUND IN SCENE");
+            return default;
         }
 
         var requiredComponent = gameObject.GetComponent<T>();
