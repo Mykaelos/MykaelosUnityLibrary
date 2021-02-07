@@ -6,12 +6,14 @@ public static class ListExtension {
 
     // Randomly shuffles the list.
     // Borrowed from https://stackoverflow.com/a/1262619.
-    public static void Shuffle<T>(this List<T> list) {
+    public static List<T> Shuffle<T>(this List<T> list) {
         int x = list.Count;
         while (x > 1) {
             x--;
             list.Swap(Random.Range(0, x + 1), x);
         }
+
+        return list; // Method Chaining.
     }
 
     public static T RandomElement<T>(this List<T> list) {
@@ -67,10 +69,12 @@ public static class ListExtension {
         return totalWeight;
     }
 
-    public static void Swap<T>(this List<T> list, int index1, int index2) {
+    public static List<T> Swap<T>(this List<T> list, int index1, int index2) {
         var temp = list[index1];
         list[index1] = list[index2];
         list[index2] = temp;
+
+        return list; // Method Chaining.
     }
 
     public static T First<T>(this List<T> list) {
@@ -81,16 +85,20 @@ public static class ListExtension {
         return !list.IsNullOrEmpty() ? list[list.Count - 1] : default(T);
     }
 
-    public static void RemoveFirst<T>(this List<T> list) {
+    public static List<T> RemoveFirst<T>(this List<T> list) {
         if (!list.IsNullOrEmpty()) {
             list.RemoveAt(0);
         }
+
+        return list; // Method Chaining.
     }
 
-    public static void RemoveLast<T>(this List<T> list) {
+    public static List<T> RemoveLast<T>(this List<T> list) {
         if (!list.IsNullOrEmpty()) {
             list.RemoveAt(list.Count - 1);
         }
+
+        return list; // Method Chaining.
     }
 
     // An actual implementation of List.ToString() that ToStrings all of the elements inside of the string.
