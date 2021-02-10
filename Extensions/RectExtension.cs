@@ -137,4 +137,29 @@ public static class RectExtension {
             && rect.yMax >= otherRect.yMin
             && rect.yMin <= otherRect.yMax;
     }
+
+    public static Rect SetMinSizeFromCenter(this Rect rect, Vector2 minSize) {
+        Vector2 newSize = new Vector2(MathM.MinimumClamped(rect.size.x, minSize.x), MathM.MinimumClamped(rect.size.y, minSize.y));
+        return rect.Center(rect.center, newSize); // Method chaining.
+    }
+
+    public static bool OverlapsAny(this Rect rect, List<Rect> rects) {
+        foreach (var testRect in rects) {
+            if (rect.Overlaps(testRect)) {
+                return true;
+            }
+        }
+ 
+        return false;
+    }
+
+    public static bool OverlapsAnyExcept(this Rect rect, List<Rect> rects, Rect ignoreRect) {
+        foreach (var testRect in rects) {
+            if (testRect != ignoreRect && rect.Overlaps(testRect)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
