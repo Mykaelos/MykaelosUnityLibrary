@@ -25,4 +25,8 @@ public static class Vector3Extensions {
         position.z = z;
         return position;
     }
+
+    public static Vector3 RandomPosition(this Vector3 position) {
+        return new Vector3(Random.Range(0f, position.x), Random.Range(0f, position.y), Random.Range(0f, position.z));
+    }
 }

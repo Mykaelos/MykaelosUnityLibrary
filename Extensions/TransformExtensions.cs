@@ -168,4 +168,11 @@ public static class TransformExtensions {
 
         return requiredComponent;
     }
+
+    public static Vector3 RandomPosition(this Transform transform) {
+        return new Vector3(
+            transform.position.x + Random.Range(transform.localScale.x / -2f, transform.localScale.x / 2f),
+            transform.position.y + Random.Range(transform.localScale.y / -2f, transform.localScale.y / 2f),
+            transform.position.z + Random.Range(transform.localScale.z / -2f, transform.localScale.z / 2f));
+    }
 }
