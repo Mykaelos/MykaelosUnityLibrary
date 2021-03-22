@@ -18,6 +18,12 @@ public class TransitionManager : MonoBehaviour {
         get { return _IsFading; }
     }
 
+    public static bool IsFaded {
+        get {
+            return Instance.Direction == FADEOUT && !IsFading;
+        }
+    }
+
 
     public static void FadeOut(float duration, Color color, Action finishedCallback = null) {
         Fade(FADEOUT, duration, color, finishedCallback);
