@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-//public delegate void Callback(object[] args);
+public delegate void Callback(object[] args);
 
 //There might be a better way to merge this with Messenger at some point, but this is the simplest solution for now.
 public class LocalMessenger {

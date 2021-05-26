@@ -41,6 +41,10 @@ public class TouchManager {
         return Input.touchSupported;
     }
 
+    public static bool HasTouch() {
+        return GetTouches().IsNotEmpty();
+    }
+
     static void UpdateTouches() {
         if (!TouchInputType.IsThereATouch()) {
             if (Touches.Count > 0) {
