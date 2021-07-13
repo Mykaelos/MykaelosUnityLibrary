@@ -87,7 +87,7 @@ namespace MykaelosUnityLibrary.DataBind {
             return hiddenList.Contains(item);
         }
 
-        // IEnumerable
+        // IEnumerable, needed for foreach() loops.
         public IEnumerator<T> GetEnumerator() {
             return hiddenList.GetEnumerator();
         }
