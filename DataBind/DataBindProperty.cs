@@ -47,6 +47,10 @@ namespace MykaelosUnityLibrary.DataBind {
  *     Power.ValueChanged += OnPowerChanged; // Add callback.
  * }
  * 
+ * public void PowerUp(int additionalPower) {
+ *     Power.Value += additionalPower; // Triggers ValueChanged event.
+ * }
+ * 
  * private void OnDestroy() {
  *     Power.ValueChanged -= OnPowerChanged; // Remove to prevent lingering references.
  * }
