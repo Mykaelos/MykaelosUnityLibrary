@@ -42,6 +42,14 @@ public static class TransformExtensions {
         return ((RectTransform)transform).rect;
     }
 
+    public static List<Transform> GetChildren(this Transform transform) {
+        List<Transform> children = new List<Transform>();
+        foreach (Transform child in transform) {
+            children.Add(child);
+        }
+        return children;
+    }
+
     public static void DestroyAllChildren(this Transform transform) {
         foreach (Transform child in transform) {
             GameObject.Destroy(child.gameObject);
