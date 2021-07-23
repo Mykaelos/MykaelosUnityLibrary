@@ -3,8 +3,8 @@
 public static class ComponentExtensions {
     // Have to use 'this' for Component Extensions.
 
-    // this.GetComponent<CustomController>("CustomerObject");
-    public static T GetComponent<T>(this Component component, string gameObjectName) {
+    // this.GetComponentAnywhere<CustomController>("CustomerObject");
+    public static T GetComponentAnywhere<T>(this Component component, string gameObjectName) {
         var gameObject = GameObject.Find(gameObjectName);
 
         return gameObject != null ? gameObject.GetComponent<T>() : default(T);
