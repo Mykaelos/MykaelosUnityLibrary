@@ -12,6 +12,18 @@ public class RandomM {
         return Random.value < Mathf.Clamp01(percentChanceZeroToOne);
     }
 
+    public static int Int(int minInclusive, int maxInclusive) {
+        return Random.Range(minInclusive, maxInclusive + 1);
+    }
+
+    public static int IntExclusive(int minInclusive, int maxExclusive) {
+        return Random.Range(minInclusive, maxExclusive);
+    }
+
+    public static float Float(float min, float max) {
+        return Random.Range(min, max);
+    }
+
     public static List<int> CreateRandomListFromSeed(int seed, int length) {
         Random.InitState(seed);
         List<int> randomNumbers = new List<int>();
