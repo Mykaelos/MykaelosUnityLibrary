@@ -58,6 +58,23 @@ public static class RectExtension {
         return position;
     }
 
+    public static Vector3 ClampXZ(this Rect rect, Vector3 position) {
+        if (position.x < rect.xMin) {
+            position.x = rect.xMin;
+        }
+        if (position.x > rect.xMax) {
+            position.x = rect.xMax;
+        }
+
+        if (position.z < rect.yMin) {
+            position.z = rect.yMin;
+        }
+        if (position.z > rect.yMax) {
+            position.z = rect.yMax;
+        }
+        return position;
+    }
+
     public static Vector2 WrapRect(this Rect rect, Vector2 position) {
         float x = (position.x > rect.xMax) ? rect.xMin : (position.x < rect.xMin) ? rect.xMax : position.x;
         float y = (position.y > rect.yMax) ? rect.yMin : (position.y < rect.yMin) ? rect.yMax : position.y;

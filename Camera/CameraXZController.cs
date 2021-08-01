@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-// Currently only works with 2D X,Y space. UpdateCameraMovementFromDrag is broken for 3D.
+
 public class CameraXZController : MonoBehaviour {
     public float MoveSpeed = 0.1f;
     public float ZoomSpeed = 1f;
@@ -10,19 +10,11 @@ public class CameraXZController : MonoBehaviour {
     private bool IsCameraClamped = false;
 
     private Camera Camera;
-    private CameraData CameraData;
-    private bool HasBeenSetup = false;
+    private CameraXZData CameraData = new CameraXZData();
 
 
     void Awake() {
         Camera = this.GetRequiredComponent<Camera>();
-    }
-
-    private void Start() {
-        if (!HasBeenSetup) {
-            HasBeenSetup = true;
-            Setup();
-        }
     }
 
     void Update() {
@@ -38,10 +30,10 @@ public class CameraXZController : MonoBehaviour {
             return;
         }
 
-        Vector3 movement = new Vector3(xMove, yMove, 0);
+        Vector3 movement = new Vector3(xMove, 0, yMove);
         movement.Normalize();
         movement *= MoveSpeed;
-        UpdateCameraLocation(transform.position + movement);
+        SetCameraLocation(transform.position + movement);
     }
 
     private Vector3 StartingCameraPoint;
@@ -55,7 +47,7 @@ public class CameraXZController : MonoBehaviour {
                 StartingCameraPoint = transform.position;
             }
             else if (TouchDragEvent.Phase == TouchPhase.Moved) {
-                UpdateCameraLocation(StartingCameraPoint - (Vector3)(TouchDragEvent.CurrentDraggingScreenPoint - TouchDragEvent.StartDraggingScreenPoint) * Camera.UnitsPerPixel());
+                SetCameraLocation(StartingCameraPoint - (Vector3)(TouchDragEvent.CurrentDraggingScreenPoint - TouchDragEvent.StartDraggingScreenPoint) * Camera.UnitsPerPixel());
             }
         }
     }
@@ -68,9 +60,9 @@ public class CameraXZController : MonoBehaviour {
         }
     }
 
-    private void UpdateCameraLocation(Vector2 location) {
-        CameraData.Location = IsCameraClamped ? (Vector2)ClampedViewRect.Clamp(location) : location;
-        transform.position = CameraData.Location.ToVector3(transform.position.z);
+    private void SetCameraLocation(Vector3 location) {
+        CameraData.Location = IsCameraClamped ? ClampedViewRect.ClampXZ(location) : location; // Maybe make Box someday.
+        transform.position = CameraData.Location;
     }
 
     private void UpdateCameraZoom(float zoom) {
@@ -78,13 +70,13 @@ public class CameraXZController : MonoBehaviour {
         Camera.orthographicSize = CameraData.Zoom;
     }
 
-    public void Setup(CameraData cameraData = null, Rect cameraBounds = new Rect()) {
+    public void Setup(CameraXZData cameraData = null, Rect cameraBounds = new Rect()) {
         IsCameraClamped = cameraBounds.size.magnitude > 0;
         ClampedViewRect = cameraBounds;
 
-        CameraData = cameraData ?? new CameraData(Camera);
+        CameraData = cameraData ?? new CameraXZData(Camera);
 
-        UpdateCameraLocation(CameraData.Location);
+        SetCameraLocation(CameraData.Location);
         UpdateCameraZoom(CameraData.Zoom);
     }
 
