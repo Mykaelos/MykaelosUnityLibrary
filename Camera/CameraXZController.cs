@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
 
 
 // TODO
@@ -21,8 +20,29 @@ public class CameraXZController : MonoBehaviour {
     private TouchDragEvent TouchDragEvent = null;
 
 
+    public void SetViewBounds(Rect viewBounds, Vector3 initialFocusStartingPoint) {
+        Camera = Camera ?? this.GetRequiredComponent<Camera>();
+        // Assuming the camera angle doesn't change, what is the view point area, 
+        // and determine what space the camera can move inside of that area.
+
+        // Determine the distance that the camera needs to be to include the whole view,
+        // based on the camera's FOV and Aspect ratio.
+        float width = viewBounds.width;
+        float widthFOV = Camera.VerticalToHorizontalFieldOfView(Camera.fieldOfView, Camera.aspect);
+        float tAngle = widthFOV / 2f * Mathf.Deg2Rad;
+        float opposite = width / 2f;
+        float distance = opposite / Mathf.Tan(tAngle);
+
+        var cameraDirection = transform.forward;
+        var cameraEndPosition = initialFocusStartingPoint + -cameraDirection * distance;
+
+        IsCameraClamped = viewBounds.size.magnitude > 0;
+        ClampedViewRect = new Rect().Center(cameraEndPosition.Vector2XZ(), viewBounds.size);
+        SetCameraLocation(cameraEndPosition);
+    }
+
     void Awake() {
-        Camera = this.GetRequiredComponent<Camera>();
+        Camera = Camera ?? this.GetRequiredComponent<Camera>();
     }
 
     void Update() {
@@ -76,59 +96,5 @@ public class CameraXZController : MonoBehaviour {
     private void UpdateCameraZoom(float zoom) {
         CameraData.Zoom = Mathf.Clamp(zoom, 1, 10);
         Camera.orthographicSize = CameraData.Zoom;
-    }
-
-    public void Setup(CameraXZData cameraData = null, Rect cameraBounds = new Rect()) {
-        IsCameraClamped = cameraBounds.size.magnitude > 0;
-        ClampedViewRect = cameraBounds;
-
-        CameraData = cameraData ?? new CameraXZData(Camera);
-
-        SetCameraLocation(CameraData.Location);
-        UpdateCameraZoom(CameraData.Zoom);
-    }
-
-    public void SetViewBounds(Vector3 centerPoint, Rect cameraBounds) {
-        // assuming the camera angle doesn't change, what is the view point area, and determine what space the camera can move inside of that area
-        Camera = this.GetRequiredComponent<Camera>();
-
-        float width = cameraBounds.width;
-        float widthFOV = Camera.VerticalToHorizontalFieldOfView(Camera.fieldOfView, Camera.aspect);
-        float tAngle = widthFOV / 2f * Mathf.Deg2Rad;
-        float opposite = width / 2f;
-        float distance = opposite / Mathf.Tan(tAngle);
-
-        // center camera view on a point in a plane
-        //
-        Debug.Log("Center: {0}".FormatWith(centerPoint));
-        Vector3 focusPoint = centerPoint;
-        // preserving camera y, because plane is xz
-
-        var cameraDirection = transform.forward;
-        //float distance = 25f;
-
-        var cameraEndPosition = focusPoint + -cameraDirection * distance;
-
-        //Plane plane = new Plane(Vector3.up, Vector3.zero);
-        //plane.Raycast()
-
-        //transform.position = cameraEndPosition;
-
-
-        IsCameraClamped = cameraBounds.size.magnitude > 0;
-        ClampedViewRect = new Rect().Center(cameraEndPosition.Vector2XZ(), cameraBounds.size);
-        SetCameraLocation(cameraEndPosition);
-
-        //Camera.FieldOfViewToFocalLength
-    }
-
-    void PrepareCamera() {
-        Vector2 startingViewSize = ClampedViewRect.size + Vector2.one;
-        Camera.orthographicSize = startingViewSize.y / 2f;
-
-        float currentWidth = Camera.orthographicSize * 2f * Camera.aspect;
-        if (startingViewSize.x > currentWidth) {
-            Camera.orthographicSize = startingViewSize.x / Camera.aspect / 2f;
-        }
     }
 }
