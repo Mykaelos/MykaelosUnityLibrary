@@ -2,6 +2,12 @@
 using UnityEngine.EventSystems;
 
 
+// TODO
+//  - top down camera controller
+//  -- that limits camera dragging/movement/zooming to a specific area
+//  -- that makes initial camera placement/zoom easy
+
+
 public class CameraXZController : MonoBehaviour {
     public float MoveSpeed = 0.1f;
     public float ZoomSpeed = 1f;
@@ -11,6 +17,8 @@ public class CameraXZController : MonoBehaviour {
 
     private Camera Camera;
     private CameraXZData CameraData = new CameraXZData();
+    private Vector3 StartingCameraPoint;
+    private TouchDragEvent TouchDragEvent = null;
 
 
     void Awake() {
@@ -18,12 +26,12 @@ public class CameraXZController : MonoBehaviour {
     }
 
     void Update() {
-        UpdateCameraMovement();
+        UpdateCameraMovementFromKeyboard();
         UpdateCameraMovementFromDrag();
-        UpdateZoom();
+        //UpdateZoom();
     }
 
-    void UpdateCameraMovement() {
+    void UpdateCameraMovementFromKeyboard() {
         float xMove = Mathf.Clamp(Input.GetAxis("Horizontal"), -1, 1);
         float yMove = Mathf.Clamp(Input.GetAxis("Vertical"), -1, 1);
         if (xMove == 0 && yMove == 0) {
@@ -36,9 +44,6 @@ public class CameraXZController : MonoBehaviour {
         SetCameraLocation(transform.position + movement);
     }
 
-    private Vector3 StartingCameraPoint;
-    private TouchDragEvent TouchDragEvent = null;
-
     void UpdateCameraMovementFromDrag() {
         TouchDragEvent = TouchManager.UpdateScreenDrag();
 
@@ -47,7 +52,10 @@ public class CameraXZController : MonoBehaviour {
                 StartingCameraPoint = transform.position;
             }
             else if (TouchDragEvent.Phase == TouchPhase.Moved) {
-                SetCameraLocation(StartingCameraPoint - (Vector3)(TouchDragEvent.CurrentDraggingScreenPoint - TouchDragEvent.StartDraggingScreenPoint) * Camera.UnitsPerPixel());
+                Vector3 screenDragVector = TouchDragEvent.CurrentDraggingScreenPoint - TouchDragEvent.StartDraggingScreenPoint;
+                Vector3 worldDragVector = screenDragVector * Camera.UnitsPerPixel();
+
+                SetCameraLocation(StartingCameraPoint - worldDragVector);
             }
         }
     }
@@ -78,6 +86,40 @@ public class CameraXZController : MonoBehaviour {
 
         SetCameraLocation(CameraData.Location);
         UpdateCameraZoom(CameraData.Zoom);
+    }
+
+    public void SetViewBounds(Vector3 centerPoint, Rect cameraBounds) {
+        // assuming the camera angle doesn't change, what is the view point area, and determine what space the camera can move inside of that area
+        Camera = this.GetRequiredComponent<Camera>();
+
+        float width = cameraBounds.width;
+        float widthFOV = Camera.VerticalToHorizontalFieldOfView(Camera.fieldOfView, Camera.aspect);
+        float tAngle = widthFOV / 2f * Mathf.Deg2Rad;
+        float opposite = width / 2f;
+        float distance = opposite / Mathf.Tan(tAngle);
+
+        // center camera view on a point in a plane
+        //
+        Debug.Log("Center: {0}".FormatWith(centerPoint));
+        Vector3 focusPoint = centerPoint;
+        // preserving camera y, because plane is xz
+
+        var cameraDirection = transform.forward;
+        //float distance = 25f;
+
+        var cameraEndPosition = focusPoint + -cameraDirection * distance;
+
+        //Plane plane = new Plane(Vector3.up, Vector3.zero);
+        //plane.Raycast()
+
+        //transform.position = cameraEndPosition;
+
+
+        IsCameraClamped = cameraBounds.size.magnitude > 0;
+        ClampedViewRect = new Rect().Center(cameraEndPosition.Vector2XZ(), cameraBounds.size);
+        SetCameraLocation(cameraEndPosition);
+
+        //Camera.FieldOfViewToFocalLength
     }
 
     void PrepareCamera() {
