@@ -19,4 +19,8 @@ public static class Vector2Extensions {
     public static float RandomRange(this Vector2 range) {
         return Random.Range(range.x, range.y);
     }
+
+    public static Vector3 Vector3XZ(this Vector2 vector2, float y = 0) {
+        return new Vector3(vector2.x, y, vector2.y);
+    }
 }

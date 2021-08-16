@@ -36,6 +36,26 @@ public static class RectExtension {
         return rect;
     }
 
+    public static Rect StretchToInclude(this Rect rect, Rect includeRect) {
+        if (rect.xMin > includeRect.xMin) {
+            rect.xMin = includeRect.xMin;
+        }
+
+        if (rect.xMax < includeRect.xMax) {
+            rect.xMax = includeRect.xMax;
+        }
+
+        if (rect.yMin > includeRect.yMin) {
+            rect.yMin = includeRect.yMin;
+        }
+
+        if (rect.yMax < includeRect.yMax) {
+            rect.yMax = includeRect.yMax;
+        }
+
+        return rect;
+    }
+
     // Adds/subtracts from the width and height from the current center of the rect.
     public static Rect ScaleAreaFromCenter(this Rect rect, Vector2 sizeChange) {
         return rect.Center(rect.center, rect.size + sizeChange);
