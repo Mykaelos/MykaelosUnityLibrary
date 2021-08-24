@@ -13,16 +13,17 @@ public class TouchManager {
     private const int MOUSE_RIGHT_CLICK_ID = 2;
     private const int MOUSE_MIDDLE_CLICK_ID = 3;
 
-    protected static TouchInputType TouchInputType;
+    protected static List<TouchInputType> TouchInputTypes = new List<TouchInputType>();
+
 
 
     public static Dictionary<int, TouchPoint> GetTouches() {
-        if (TouchInputType == null) {
+        if (TouchInputTypes.IsNullOrEmpty()) {
             if (IsTouch()) {
-                TouchInputType = new TouchTouchType();
+                TouchInputTypes.Add(new TouchTouchType());
             }
-            else {
-                TouchInputType = new MouseTouchType();
+            if (IsMouse()) {
+                TouchInputTypes.Add(new MouseTouchType());
             }
         }
 
@@ -46,7 +47,14 @@ public class TouchManager {
     }
 
     static void UpdateTouches() {
-        if (!TouchInputType.IsThereATouch()) {
+        bool isThereATouch = false;
+        foreach (var touchInputType in TouchInputTypes) {
+            if (touchInputType.IsThereATouch()) {
+                isThereATouch = true;
+            }
+        }
+
+        if (!isThereATouch) {
             if (Touches.Count > 0) {
                 Touches.Clear();
             }
@@ -63,7 +71,9 @@ public class TouchManager {
 
         LastCheck = Time.time;
 
-        TouchInputType.UpdateTouches(Touches, LastTouches);
+        foreach (var touchInputType in TouchInputTypes) {
+            touchInputType.UpdateTouches(Touches, LastTouches);
+        }
     }
 
     static bool AreTouchesStale() {

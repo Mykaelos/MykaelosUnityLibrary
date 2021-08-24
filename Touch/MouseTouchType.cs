@@ -2,6 +2,7 @@
 using UnityEngine;
 
 public class MouseTouchType : TouchInputType {
+    private int StartingButtonId = 100; // Starting at 100 because that should be more than enough room for real touches.
 
 
     public override bool IsThereATouch() {
@@ -14,7 +15,7 @@ public class MouseTouchType : TouchInputType {
         for (int i = 0; i < 3; i++) {
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             int mouseButtonIndex = i;
-            int mouseButtonId = i + 1;
+            int mouseButtonId = i + StartingButtonId;
             if (Input.GetMouseButton(mouseButtonIndex) || Input.GetMouseButtonUp(mouseButtonIndex)) {
                 bool isStationary = false;
                 var lastTouchPoint = LastTouches.Get(mouseButtonId);
