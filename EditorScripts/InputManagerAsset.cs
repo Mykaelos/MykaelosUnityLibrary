@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿#if (UNITY_EDITOR)
+using UnityEditor;
 
 
 // InputManagerAsset to help make programmatic changes to the project's InputManager.asset.
@@ -67,3 +68,4 @@ public static class SerializedPropertyExtension {
         return null;
     }
 }
+#endif
