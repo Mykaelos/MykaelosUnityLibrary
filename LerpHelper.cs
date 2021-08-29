@@ -3,7 +3,7 @@ using System.Collections;
 
 public class LerpHelper {
 
-    /*Returns a curve that starts rising quickly, then slows down as it approaches 1.
+    /* Returns a curve that starts rising quickly, then slows down as it approaches 1.
      * High velocity to one with deceleration.
      * percentProgress: Lerp between 0 and 1
      * steepness: How quickly the line rises initially. Larger values make it almost a right angle. Must be larger than 0.
@@ -18,7 +18,7 @@ public class LerpHelper {
         return curvePercent;
     }
 
-    /*Reverse of CurveToOneFastSlow
+    /* Reverse of CurveToOneFastSlow
      * Low velocity to zero with acceleration.
      * percentProgress: Lerp between 0 and 1
      * steepness: How quickly the line rises initially. Larger values make it almost a right angle. Must be larger than 0.
@@ -28,7 +28,7 @@ public class LerpHelper {
     }
 
 
-    /*Reverses the progress between 0 to 1.
+    /* Reverses the progress between 0 to 1.
      */
     public static float Reverse(float percentProgress) {
         return Mathf.Clamp01(1f - percentProgress);
