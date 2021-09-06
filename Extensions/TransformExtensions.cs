@@ -60,6 +60,20 @@ public static class TransformExtensions {
         DestroyAllChildren(transform);
     }
 
+    public static void SetActiveAllChildren(this Transform transform, bool setActive) {
+        var children = transform.GetChildren();
+        foreach (var child in children) {
+            child.gameObject.SetActive(setActive);
+        }
+    }
+
+    public static void SetActiveChild(this Transform transform, string childName, bool setActive) {
+        var child = transform.FindFirstChildByName(childName);
+        if (child != null) {
+            child.gameObject.SetActive(setActive);
+        }
+    }
+
     public static Transform FindFirstChildByName(this Transform transform, string name) {
         foreach (Transform child in transform) {
             if (name.Equals(child.name)) {
