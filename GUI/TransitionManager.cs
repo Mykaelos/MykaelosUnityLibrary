@@ -42,6 +42,12 @@ public class TransitionManager : MonoBehaviour {
         Instance.StartCoroutine(Instance.StartFade(finishedCallback));
     }
 
+    public static void SetFaded(bool isFaded, Color color) {
+        Instance.Image.color = color;
+        Instance.Image.SetAlpha(isFaded ? 1 : 0);
+        Instance.Image.raycastTarget = Instance.Image.IsVisible();
+    }
+
     private static TransitionManager _Instance = null;
     private static TransitionManager Instance {
         get { return _Instance == null ? _Instance = (new GameObject("TransitionManager")).AddComponent<TransitionManager>() : _Instance; }
