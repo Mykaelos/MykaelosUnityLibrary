@@ -30,8 +30,8 @@ public struct Point : IEquatable<Point> {
         return new Vector2(X, Y);
     }
 
-    public Vector3 Vector3XZ() {
-        return new Vector3(X, 0, Y);
+    public Vector3 Vector3XZ(int y = 0) {
+        return new Vector3(X, y, Y);
     }
 
     public Vector3 Vector3() {
