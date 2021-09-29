@@ -24,6 +24,14 @@ public class RandomM {
         return Random.Range(min, max);
     }
 
+    public static Vector3 Vector(Vector3 min, Vector3 max) {
+        return new Vector3(Float(min.x, max.x), Float(min.y, max.y), Float(min.z, max.z));
+    }
+
+    public static Vector3 Scale(float min, float max) {
+        return Vector3.one * Float(min, max);
+    }
+
     public static List<int> CreateRandomListFromSeed(int seed, int length) {
         Random.InitState(seed);
         List<int> randomNumbers = new List<int>();
