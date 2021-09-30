@@ -8,6 +8,7 @@
 
 
 public class CameraXZController : MonoBehaviour {
+    public bool IsMovementEnabled = true;
     public float MoveSpeed = 0.1f;
     public float ZoomSpeed = 1f;
 
@@ -46,6 +47,10 @@ public class CameraXZController : MonoBehaviour {
     }
 
     void Update() {
+        if (!IsMovementEnabled) {
+            return;
+        }
+
         UpdateCameraMovementFromKeyboard();
         UpdateCameraMovementFromDrag();
         //UpdateZoom();

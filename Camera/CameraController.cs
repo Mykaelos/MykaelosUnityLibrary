@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 
 // Currently only works with 2D X,Y space. UpdateCameraMovementFromDrag is broken for 3D.
 public class CameraController : MonoBehaviour {
+    public bool IsMovementEnabled = true;
     public float MoveSpeed = 0.1f;
     public float ZoomSpeed = 1f;
 
@@ -26,6 +27,10 @@ public class CameraController : MonoBehaviour {
     }
 
     void Update() {
+        if (!IsMovementEnabled) {
+            return;
+        }
+
         UpdateCameraMovement();
         UpdateCameraMovementFromDrag();
         UpdateZoom();
