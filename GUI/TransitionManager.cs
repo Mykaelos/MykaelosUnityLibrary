@@ -63,8 +63,9 @@ public class TransitionManager : MonoBehaviour {
     private void BuildCanvas() {
         var canvas = gameObject.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        gameObject.AddComponent<GraphicRaycaster>();
-
+        canvas.sortingOrder = Int16.MaxValue; // Makes sure to be higher than any other Overlay Canvas.
+        gameObject.AddComponent<GraphicRaycaster>(); // Allows blocking raycasts.
+        
         var imageGameObject = new GameObject("Image");
         imageGameObject.transform.SetParent(transform);
         var rectTransform = imageGameObject.AddComponent<RectTransform>();
@@ -75,7 +76,7 @@ public class TransitionManager : MonoBehaviour {
         Image = imageGameObject.AddComponent<Image>();
         var texture = Texture2D.whiteTexture;
         Image.sprite = Sprite.Create(Texture2D.whiteTexture, new Rect(0, 0, texture.width, texture.height), Vector2.one * 0.5f);
-        Image.raycastTarget = true;
+        Image.raycastTarget = true; // Blocks raycasts.
     }
 
     private IEnumerator StartFade(Action finishedCallback) {
