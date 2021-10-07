@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using UnityEngine;
 
-public class FileSaveUtils<T> {
+public class FileSaveUtils {
 
-    public static bool Save(string fileName, T data) {
+    public static bool Save<T>(string fileName, T data, List<Type> safeTypes = null) {
+        return Save(fileName, data, typeof(T), safeTypes);
+    }
+
+    public static bool Save(string fileName, object data, Type dataType, List<Type> safeTypes = null) {
         if (data == null) {
             Debug.LogWarning("Failed to save file: " + fileName + ". Null data cannot be saved.");
             return false;
@@ -16,7 +21,7 @@ public class FileSaveUtils<T> {
         string filePath = string.Format("{0}/{1}.dat", Application.persistentDataPath, fileName);
 
         try {
-            DataContractSerializer serializer = new DataContractSerializer(typeof(T));
+            DataContractSerializer serializer = new DataContractSerializer(dataType, safeTypes);
             // FileMode.Create either creates a new file, or replaces the previous one. 
             // This destroys the file on Open(), so make sure the new data is a good replacement!
             fileStream = File.Open(filePath, FileMode.Create);
@@ -36,14 +41,14 @@ public class FileSaveUtils<T> {
         return wasSavedSuccessfully;
     }
 
-    public static T Load(string fileName) {
+    public static T Load<T>(string fileName, List<Type> safeTypes = null) {
         FileStream fileStream = null;
         string filePath = string.Format("{0}/{1}.dat", Application.persistentDataPath, fileName);
         T data = default(T);
 
         try {
             if (File.Exists(filePath)) {
-                DataContractSerializer serializer = new DataContractSerializer(typeof(T));
+                DataContractSerializer serializer = new DataContractSerializer(typeof(T), safeTypes);
                 fileStream = File.Open(filePath, FileMode.Open);
                 data = (T)serializer.ReadObject(fileStream);
             }
