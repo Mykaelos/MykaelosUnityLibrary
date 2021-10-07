@@ -28,4 +28,8 @@ public static class DictionaryExtensions {
 
         return foundValue;
     }
+
+    public static bool Has<K, V>(this Dictionary<K, V> dictionary, K key) {
+        return dictionary.ContainsKey(key);
+    }
 }
