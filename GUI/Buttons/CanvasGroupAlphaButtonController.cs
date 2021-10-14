@@ -15,13 +15,13 @@ public class CanvasGroupAlphaButtonController : MonoBehaviour {
 
     public void OnToggle() {
         if (CanvasGroupTarget == null) {
-            Debug.LogError("CanvasGroupTarget is not set!");
+            Debug.LogWarning("CanvasGroupTarget is not set!");
             return;
         }
 
         var canvasGroup = CanvasGroupTarget.GetComponent<CanvasGroup>();
         if (canvasGroup == null) {
-            Debug.LogError("CanvasGroupTarget needs to have a CanvasGroup!");
+            Debug.LogWarning("CanvasGroupTarget needs to have a CanvasGroup!");
             return;
         }
 
