@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization;
+using System.Xml.Serialization;
 using UnityEngine;
 
 public class FileSaveUtils {
 
-    public static bool Save<T>(string fileName, T data, List<Type> safeTypes = null) {
-        return Save(fileName, data, typeof(T), safeTypes);
+    public static bool Save<T>(string fileName, T data) {
+        return Save(fileName, data, typeof(T));
     }
 
-    public static bool Save(string fileName, object data, Type dataType, List<Type> safeTypes = null) {
+    public static bool Save(string fileName, object data, Type dataType) {
         if (data == null) {
             Debug.LogWarning("Failed to save file: " + fileName + ". Null data cannot be saved.");
             return false;
@@ -21,11 +20,16 @@ public class FileSaveUtils {
         string filePath = string.Format("{0}/{1}.dat", Application.persistentDataPath, fileName);
 
         try {
-            DataContractSerializer serializer = new DataContractSerializer(dataType, safeTypes);
+            // BE CAREFUL TO ONLY USE THIS XmlSerializer CONSTRUCTOR. Other constructors do not reuse their assemblies,
+            // which can cause a memory leak. https://docs.microsoft.com/en-us/dotnet/api/system.xml.serialization.xmlserializer?view=net-5.0#dynamically-generated-assemblies
+            XmlSerializer serializer = new XmlSerializer(dataType);
+
             // FileMode.Create either creates a new file, or replaces the previous one. 
             // This destroys the file on Open(), so make sure the new data is a good replacement!
             fileStream = File.Open(filePath, FileMode.Create);
-            serializer.WriteObject(fileStream, data);
+
+            serializer.Serialize(fileStream, data);
+
             fileStream.Close();
             wasSavedSuccessfully = true;
         }
@@ -41,16 +45,18 @@ public class FileSaveUtils {
         return wasSavedSuccessfully;
     }
 
-    public static T Load<T>(string fileName, List<Type> safeTypes = null) {
+    public static T Load<T>(string fileName) {
         FileStream fileStream = null;
         string filePath = string.Format("{0}/{1}.dat", Application.persistentDataPath, fileName);
         T data = default(T);
 
         try {
             if (File.Exists(filePath)) {
-                DataContractSerializer serializer = new DataContractSerializer(typeof(T), safeTypes);
+                XmlSerializer serializer = new XmlSerializer(typeof(T));
+
                 fileStream = File.Open(filePath, FileMode.Open);
-                data = (T)serializer.ReadObject(fileStream);
+
+                data = (T)serializer.Deserialize(fileStream);
             }
             else {
                 Debug.Log(string.Format("Failed to load File {0}. It does not exist.", fileName));
