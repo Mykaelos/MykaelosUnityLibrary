@@ -24,7 +24,7 @@ public class FileSaveUtils {
             // which can cause a memory leak. https://docs.microsoft.com/en-us/dotnet/api/system.xml.serialization.xmlserializer?view=net-5.0#dynamically-generated-assemblies
             XmlSerializer serializer = new XmlSerializer(dataType);
 
-            // FileMode.Create either creates a new file, or replaces the previous one. 
+            // FileMode.Create either creates a new file, or replaces the previous one.
             // This destroys the file on Open(), so make sure the new data is a good replacement!
             fileStream = File.Open(filePath, FileMode.Create);
 
