@@ -68,7 +68,7 @@ public class TouchPoint {
         }
 
         if (EventSystem.current == null) {
-            Debug.LogError("IsTouchingUI: EventSystem MISSING! Cannot calculate if touching UI.");
+            Debug.LogWarning("IsTouchingUI: EventSystem MISSING! Cannot calculate if touching UI.");
             return false;
         }
 
