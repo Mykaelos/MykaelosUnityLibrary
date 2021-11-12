@@ -89,7 +89,7 @@ public class AudioManager : MonoBehaviour {
 
     public static void PlaySound(string audioName, Vector3 position, float pitch = 1, float volumeMultiplier = 1, bool dontDestoryOnLoad = false) {
         AudioClip audioClip = GetOrLoadClip(audioName);
-        if(audioClip == null) {
+        if (audioClip == null) {
             Debug.Log("AudioManager: Could not find clip \"" + audioName + "\"");
             return;
         }
@@ -104,6 +104,24 @@ public class AudioManager : MonoBehaviour {
         }
     }
 
+    public static void PlaySound(AudioClip audioClip, Vector3 position, float pitch = 1, float volumeMultiplier = 1, bool dontDestoryOnLoad = false) {
+        if (audioClip == null) {
+            Debug.Log("AudioManager: audioClip cannot be null.");
+            return;
+        }
+
+        if (!IsSoundMuted) {
+            GameObject tempObject = (GameObject)GameObject.Instantiate(TempAudioSourcePrefab, position, Quaternion.identity);
+            if (dontDestoryOnLoad) {
+                GameObject.DontDestroyOnLoad(tempObject);
+            }
+
+
+            PlaySound(audioClip, tempObject.GetComponent<AudioSource>(), pitch, volumeMultiplier);
+            GameObject.Destroy(tempObject, audioClip.length);
+        }
+    }
+
     public static void PlaySound(string audioName, AudioSource source, float pitch = 1, float volumeMultiplier = 1) {
         AudioClip audioClip = GetOrLoadClip(audioName);
         if (audioClip == null) {
@@ -112,12 +130,14 @@ public class AudioManager : MonoBehaviour {
         }
 
         if (!IsSoundMuted) {
+            PlaySound(audioClip, source, pitch, volumeMultiplier);
+        }
+    }
+
+    public static void PlaySound(AudioClip audioClip, AudioSource source, float pitch = 1, float volumeMultiplier = 1) {
+        if (!IsSoundMuted) {
             source.clip = audioClip;
-            source.loop = false;
-            source.mute = IsSoundMuted;
-            source.volume = SoundVolume * volumeMultiplier;
-            source.pitch = pitch;
-            source.Play();
+            PlaySound(source, pitch, volumeMultiplier);
         }
     }
 
