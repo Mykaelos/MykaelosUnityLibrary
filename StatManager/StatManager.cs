@@ -83,11 +83,11 @@ public abstract class StatManager {
     #endregion
 
     #region LocalMessenger Methods
-    public void On(string message, Callback callback) {
+    public void On(string message, System.Action<object[]> callback) {
         LocalMessenger.On(message, callback);
     }
 
-    public void Un(string message, Callback callback) {
+    public void Un(string message, System.Action<object[]> callback) {
         LocalMessenger.Un(message, callback);
     }
     #endregion
@@ -123,11 +123,11 @@ public class Stat {
     }
 
     #region LocalMessenger Methods
-    public void On(string message, Callback callback) {
+    public void On(string message, System.Action<object[]> callback) {
         LocalMessenger.On(message, callback);
     }
 
-    public void Un(string message, Callback callback) {
+    public void Un(string message, System.Action<object[]> callback) {
         LocalMessenger.Un(message, callback);
     }
     #endregion

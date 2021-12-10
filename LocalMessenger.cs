@@ -1,48 +1,58 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
-public delegate void Callback(object[] args);
+//public delegate void Callback(object[] args);
 
-//There might be a better way to merge this with Messenger at some point, but this is the simplest solution for now.
 public class LocalMessenger {
-    private Dictionary<string, List<Callback>> Listeners;
+    private Dictionary<string, Action> Listeners = new Dictionary<string, Action>();
+    private Dictionary<string, Action<object[]>> ListenersWithArgs = new Dictionary<string, Action<object[]>>();
+    // Unfortunately, a second list must be used to support callbacks with and without args.
 
-    public LocalMessenger() {
-        Listeners = new Dictionary<string, List<Callback>>();
+
+    public void On(string message, Action action) {
+        Action actions = Listeners.Get(message);
+        actions += action;
+        Listeners.Set(message, actions);
     }
 
-    public void On(string message, Callback callback) {
-        List<Callback> group = null;
-        if (!Listeners.TryGetValue(message, out group)) {
-            group = new List<Callback>();
-            Listeners.Add(message, group);
+    public void On(string message, Action<object[]> action) {
+        Action<object[]> actions = ListenersWithArgs.Get(message);
+        actions += action;
+        ListenersWithArgs.Set(message, actions);
+    }
+
+    public void Un(string message, Action action) {
+        if (action != null && Listeners.TryGetValue(message, out Action actions)) {
+            actions -= action;
+            Listeners.Set(message, actions);
         }
-        group.Add(callback);
     }
 
-    public void Un(string message, Callback callback) {
-        List<Callback> group = null;
-        if (callback != null && Listeners.TryGetValue(message, out group)) {
-            group.Remove(callback);
+    public void Un(string message, Action<object[]> action) {
+        if (action != null && ListenersWithArgs.TryGetValue(message, out Action<object[]> actions)) {
+            actions -= action;
+            ListenersWithArgs.Set(message, actions);
         }
     }
 
     public void Fire(string message, object[] args = null) {
         //Debug.Log("Messenger.Fire: " + message);
-        List<Callback> group = null;
-        if (Listeners.TryGetValue(message, out group)) {
-            List<Callback> tempList = new List<Callback>(group); //protects from removing callbacks during fire
-            foreach (var listener in tempList) {
-                listener(args);
-            }
+        if (Listeners.TryGetValue(message, out Action actions)) {
+            actions?.Invoke();
+        }
+        if (ListenersWithArgs.TryGetValue(message, out Action<object[]> actionsWithArgs)) {
+            actionsWithArgs?.Invoke(args);
         }
     }
 
     public void RemoveAll(string message = null) {
         if (message != null) {
             Listeners.Remove(message);
+            ListenersWithArgs.Remove(message);
         }
         else {
             Listeners.Clear();
+            ListenersWithArgs.Clear();
         }
     }
 }
