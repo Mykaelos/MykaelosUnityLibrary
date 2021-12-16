@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class ButtonClickMessengerController : MonoBehaviour {
@@ -13,7 +11,7 @@ public class ButtonClickMessengerController : MonoBehaviour {
     }
 
     private void OnButtonClicked() {
-        if (OnClickMessage.IsNullOrEmpty()) {
+        if (!OnClickMessage.IsNullOrEmpty()) {
             Messenger.Fire(OnClickMessage);
         }
     }
