@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
 public class ToggleSprite : MonoBehaviour {
@@ -12,7 +11,11 @@ public class ToggleSprite : MonoBehaviour {
     private bool _IsOn = true;
     public bool IsOn {
         get { return _IsOn; }
-        set { _IsOn = value; UpdateToggle(); }
+        set {
+            _IsOn = value;
+            UpdateVisuals();
+            ToggleCallback?.Invoke(_IsOn);
+        }
     }
 
     private Image Image;
@@ -20,9 +23,10 @@ public class ToggleSprite : MonoBehaviour {
 
     protected virtual void Awake() {
         Image = GetComponent<Image>();
+        UpdateVisuals();
     }
 
-    void Update() {
+    protected void Update() {
         if (!string.IsNullOrEmpty(ToggleKey) && Input.GetKeyDown(ToggleKey)) {
             Toggle();
         }
@@ -32,10 +36,9 @@ public class ToggleSprite : MonoBehaviour {
         IsOn = !IsOn;
     }
 
-    private void UpdateToggle() {
-        Image.sprite = IsOn ? OnSprite : OffSprite;
-        if (ToggleCallback != null) {
-            ToggleCallback(IsOn);
+    private void UpdateVisuals() {
+        if (Image != null) {
+            Image.sprite = IsOn ? OnSprite : OffSprite;
         }
     }
 }

@@ -11,7 +11,11 @@ public class ToggleText : MonoBehaviour {
     private bool _IsOn = true;
     public bool IsOn {
         get { return _IsOn; }
-        set { _IsOn = value; UpdateToggle(); }
+        set {
+            _IsOn = value;
+            UpdateVisuals();
+            ToggleCallback?.Invoke(_IsOn);
+        }
     }
 
     private Text Text;
@@ -19,9 +23,10 @@ public class ToggleText : MonoBehaviour {
 
     protected virtual void Awake() {
         Text = GetComponent<Text>();
+        UpdateVisuals();
     }
 
-    void Update() {
+    protected void Update() {
         if (!string.IsNullOrEmpty(ToggleKey) && Input.GetKeyDown(ToggleKey)) {
             Toggle();
         }
@@ -31,8 +36,9 @@ public class ToggleText : MonoBehaviour {
         IsOn = !IsOn;
     }
 
-    private void UpdateToggle() {
-        Text.text = _IsOn ? OnString : OffString;
-        ToggleCallback?.Invoke(_IsOn);
+    private void UpdateVisuals() {
+        if (Text != null) {
+            Text.text = _IsOn ? OnString : OffString;
+        }
     }
 }
