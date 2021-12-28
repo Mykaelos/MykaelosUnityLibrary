@@ -33,3 +33,8 @@ public static class DictionaryExtensions {
         return dictionary.ContainsKey(key);
     }
 }
+
+/* Notes:
+ * dictionary[key]++; // This will break if no value exists for key. Has(key) can be used, or just use Set(Get()+1) to keep it a one-liner.
+ * dictionary.Set(key, dictionary.Get(key) + 1);
+ */
