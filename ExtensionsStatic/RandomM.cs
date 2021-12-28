@@ -47,3 +47,21 @@ public class RandomM {
         return Random.Range(0, int.MaxValue);
     }
 }
+
+/**
+ * A simple class to temporarily save the Random State and reset it when done.
+ */ 
+public class RandomTemp {
+    private Random.State PreviousState;
+
+
+    public RandomTemp(int seed) {
+        PreviousState = Random.state;
+
+        Random.InitState(seed);
+    }
+
+    public void Reset() {
+        Random.state = PreviousState;
+    }
+}

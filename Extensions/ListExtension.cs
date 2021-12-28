@@ -103,7 +103,7 @@ public static class ListExtension {
 
     // An actual implementation of List.ToString() that ToStrings all of the elements inside of the string.
     // Borrowed with some clean up and generics from https://forum.unity.com/threads/noob-question-debug-log-a-list.761591/#post-5072021.
-    public static string ToString<T>(List<T> list, string delimiter = ",", int builderCapacity = 500) {
+    public static string ToString<T>(this List<T> list, string delimiter = ",", int builderCapacity = 500) {
         if (list == null) {
             return "null";
         }
