@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public static class StringExtensions {
@@ -23,6 +22,10 @@ public static class StringExtensions {
 
     public static bool IsNullOrEmpty(this string self) {
         return string.IsNullOrEmpty(self);
+    }
+
+    public static bool IsNotEmpty(this string self) {
+        return !IsNullOrEmpty(self);
     }
 
     public static List<string> SplitAndTrim(this string self, char splitChar = ',') {
