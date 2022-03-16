@@ -65,6 +65,28 @@ public class FileSaveManager : MonoBehaviour {
         return (T)FileSaveContainers.Get(fileName).Data;
     }
 
+    public static T Load<T>(string fileName) {
+        Debug.Log("FileSaveManager: Load[{0}]".FormatWith(fileName));
+
+        if (!FileSaveContainers.Has(fileName)) {
+            var fileData = FileSaveUtils.Load<T>(fileName);
+
+            if (fileData == null) {
+                return default(T);
+            }
+
+            var fileSaveContainer = new FileSaveContainer {
+                FileName = fileName,
+                Data = fileData,
+                DataType = typeof(T)
+            };
+
+            FileSaveContainers.Set(fileSaveContainer.FileName, fileSaveContainer);
+        }
+
+        return (T)FileSaveContainers.Get(fileName).Data;
+    }
+
     public static bool Save(string fileName) {
         Debug.Log("FileSaveManager: Save[{0}]".FormatWith(fileName));
         var fileSaveContainer = FileSaveContainers.Get(fileName);
