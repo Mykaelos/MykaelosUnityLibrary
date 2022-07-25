@@ -18,7 +18,7 @@ public class CameraFollowObjectController : MonoBehaviour {
         }
     }
 
-    private void Update() {
+    private void LateUpdate() {
         if (FollowTarget != null) {
             transform.position = FollowTarget.transform.position + VectorDifference;
         }
