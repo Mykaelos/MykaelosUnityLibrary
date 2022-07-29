@@ -23,7 +23,7 @@ public class CameraXZController : MonoBehaviour {
 
     public void SetViewBounds(Rect viewBounds, Vector3 initialFocusStartingPoint) {
         Camera = Camera ?? this.GetRequiredComponent<Camera>();
-        // Assuming the camera angle doesn't change, what is the view point area, 
+        // Assuming the camera angle doesn't change, what is the view point area,
         // and determine what space the camera can move inside of that area.
 
         // Determine the distance that the camera needs to be to include the whole view,
@@ -39,6 +39,13 @@ public class CameraXZController : MonoBehaviour {
 
         IsCameraClamped = viewBounds.size.magnitude > 0;
         ClampedViewRect = new Rect().Center(cameraEndPosition.Vector2XZ(), viewBounds.size);
+        SetCameraLocation(cameraEndPosition);
+    }
+
+    public void SetCameraFocusPoint(Vector3 focusPoint, float distance) {
+        var cameraDirection = transform.forward;
+        var cameraEndPosition = focusPoint + -cameraDirection * distance;
+
         SetCameraLocation(cameraEndPosition);
     }
 
