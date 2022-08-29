@@ -2,29 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class StatManager {
+/**
+ * StatManager handles adding up and tracking a collection of Stats.
+ * 
+ * PersistentStats are Stats that can't be removed and can be used as base stats. (May remove in the future.)
+ * TransientStatProviders are StatProviders that have their stats updated every Recalculate. They can also be removed.
+ *      Examples are items or temporary buffs.
+ */
+public class StatManager {
     #region LocalMessenger
     public const string AFTER_RECALCULATE = "StatManager.AFTER_RECALCULATE";
     LocalMessenger LocalMessenger = new LocalMessenger();
     #endregion
 
-    private Dictionary<string, double> Stats = new Dictionary<string, double>();
+    private Dictionary<string, double> CalculatedStats = new Dictionary<string, double>();
     private Dictionary<string, Stat> PersistentStats = new Dictionary<string, Stat>();
     private List<StatProvider> TransientStatProviders = new List<StatProvider>();
 
 
-    public StatManager(List<StatProvider> persistentStatBonusProviders, List<StatProvider> transientStatBonusProviders) {
-        TransientStatProviders = transientStatBonusProviders;
+    public StatManager(List<StatProvider> persistentStatProviders = null, List<StatProvider> transientStatProviders = null) {
+        //TransientStatProviders = transientStatBonusProviders;
 
-        foreach (var provider in TransientStatProviders) {
-            provider.ConnectReference(this);
+        if (transientStatProviders.IsNotEmpty()) {
+            foreach (var provider in transientStatProviders) {
+                AddTransientStatProvider(provider);
+                //provider.ConnectReference(this);
+            }
         }
 
-        // Preload PersistentStatBonuses
-        foreach (var provider in persistentStatBonusProviders) {
-            var bonuses = provider.GetStats();
-            foreach (var statBonus in bonuses) {
-                AddPersistent(statBonus);
+        // Preload PersistentStats.
+        if (persistentStatProviders.IsNotEmpty()) {
+            foreach (var provider in persistentStatProviders) {
+                var bonuses = provider.GetStats();
+                foreach (var statBonus in bonuses) {
+                    AddPersistent(statBonus);
+                }
             }
         }
 
@@ -32,9 +44,9 @@ public abstract class StatManager {
     }
 
     public void Recalculate(object[] args = null) {
-        Stats.Clear();
+        CalculatedStats.Clear();
 
-        // Preloading all of the PersistentStatBonuses into the stats
+        // Preloading all of the PersistentStats into the stats.
         foreach (var statBonusPair in PersistentStats) {
             var statBonus = statBonusPair.Value;
             Add(statBonus.Name, statBonus.Value);
@@ -52,20 +64,33 @@ public abstract class StatManager {
         LocalMessenger.Fire(AFTER_RECALCULATE);
     }
 
-    protected abstract void SpecificRecalulate();
+    protected virtual void SpecificRecalulate() {
+        // Do nothing.
+    }
+
+    public void AddTransientStatProvider(StatProvider transientStatProvider) {
+        TransientStatProviders.Add(transientStatProvider);
+        transientStatProvider.ConnectReference(this);
+    }
+
+    public void RemoveTransientStatProvider(StatProvider transientStatProvider) {
+        TransientStatProviders.Remove(transientStatProvider);
+        transientStatProvider.ConnectReference(null);
+    }
+
 
     #region Stat Methods
     public double Get(string name) {
-        return Stats.Get(name, 0);
+        return CalculatedStats.Get(name, 0);
     }
 
     public void Set(string name, double value) {
-        Stats.Set(name, value);
+        CalculatedStats.Set(name, value);
     }
 
     public void Add(string name, double value) {
         var currentValue = Get(name);
-        Stats.Set(name, currentValue + value);
+        CalculatedStats.Set(name, currentValue + value);
     }
     #endregion
 
@@ -83,11 +108,11 @@ public abstract class StatManager {
     #endregion
 
     #region LocalMessenger Methods
-    public void On(string message, System.Action<object[]> callback) {
+    public void On(string message, System.Action callback) {
         LocalMessenger.On(message, callback);
     }
 
-    public void Un(string message, System.Action<object[]> callback) {
+    public void Un(string message, System.Action callback) {
         LocalMessenger.Un(message, callback);
     }
     #endregion
@@ -111,7 +136,7 @@ public class Stat {
         set {
             var previousValue = _Value;
             _Value = value;
-            LocalMessenger.Fire(CHANGED, new object[] { Name, _Value, _Value - previousValue }); 
+            LocalMessenger.Fire(CHANGED, new object[] { Name, _Value, _Value - previousValue });
             //Debug.Log("{0}: {1}".FormatWith(Name, _Value));
         }
     }
