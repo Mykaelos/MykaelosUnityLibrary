@@ -11,7 +11,7 @@ using UnityEngine;
  */
 public class StatManager {
     #region LocalMessenger
-    public const string AFTER_RECALCULATE = "StatManager.AFTER_RECALCULATE";
+    public const string MESSAGE_AFTER_RECALCULATE = "StatManager.MESSAGE_AFTER_RECALCULATE";
     LocalMessenger LocalMessenger = new LocalMessenger();
     #endregion
 
@@ -21,16 +21,12 @@ public class StatManager {
 
 
     public StatManager(List<StatProvider> persistentStatProviders = null, List<StatProvider> transientStatProviders = null) {
-        //TransientStatProviders = transientStatBonusProviders;
-
         if (transientStatProviders.IsNotEmpty()) {
             foreach (var provider in transientStatProviders) {
                 AddTransientStatProvider(provider);
-                //provider.ConnectReference(this);
             }
         }
 
-        // Preload PersistentStats.
         if (persistentStatProviders.IsNotEmpty()) {
             foreach (var provider in persistentStatProviders) {
                 var bonuses = provider.GetStats();
@@ -43,7 +39,7 @@ public class StatManager {
         Recalculate();
     }
 
-    public void Recalculate(object[] args = null) {
+    public void Recalculate() {
         CalculatedStats.Clear();
 
         // Preloading all of the PersistentStats into the stats.
@@ -61,10 +57,13 @@ public class StatManager {
 
         SpecificRecalulate();
 
-        LocalMessenger.Fire(AFTER_RECALCULATE);
+        LocalMessenger.Fire(MESSAGE_AFTER_RECALCULATE);
     }
 
-    protected virtual void SpecificRecalulate() {
+    /** 
+     * Overwrite this method for any additional/custom calculations that happen after Recalculate().
+     */
+    public virtual void SpecificRecalulate() {
         // Do nothing.
     }
 
