@@ -34,11 +34,22 @@ public static class ListExtension {
             listWithoutElement.Remove(excludedElement);
         }
 
-        if (listWithoutElement.Count == 0) {
+        return RandomElement(listWithoutElement);
+    }
+
+    public static T RandomElementExcept<T>(this List<T> list, List<T> excludedElements) {
+        if (list.Count == 0) {
             return default(T);
         }
 
-        return listWithoutElement[Random.Range(0, listWithoutElement.Count)];
+        List<T> listWithoutElement = new List<T>(list);
+        if (excludedElements.IsNotEmpty()) {
+            foreach (var excludeItem in excludedElements) {
+                listWithoutElement.Remove(excludeItem);
+            }
+        }
+
+        return RandomElement(listWithoutElement);
     }
 
     public static int RandomIndexByWeight(this List<float> weightsList, float totalWeight = -1) {

@@ -4,6 +4,14 @@ using System;
 
 public static class CanvasGroupExtension {
    
+    public static void Show(this CanvasGroup group) {
+        SetVisible(group, true);
+    }
+
+    public static void Hide(this CanvasGroup group) {
+        SetVisible(group, false);
+    }
+
     public static void SetVisible(this CanvasGroup group, bool isVisible, bool isSolid = true) {
         group.alpha = isVisible ? 1 : 0;
         group.blocksRaycasts = isVisible && isSolid;
