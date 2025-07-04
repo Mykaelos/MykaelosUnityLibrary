@@ -10,6 +10,12 @@ public static class CanvasGroupExtension {
         group.interactable = isVisible && isSolid;
     }
 
+    public static void SetAlpha(this CanvasGroup group, float alpha, bool isSolid) {
+        group.alpha = alpha;
+        group.blocksRaycasts = isSolid;
+        group.interactable = isSolid;
+    }
+
     public static bool IsVisible(this CanvasGroup group, bool requiresSolid = false) {
         return group.alpha == 1 && (requiresSolid ? group.blocksRaycasts && group.interactable : true);
     }
