@@ -9,9 +9,9 @@ public class TouchManager {
     private static Dictionary<int, TouchPoint> LastTouches = new Dictionary<int, TouchPoint>();
     private static float LastCheck;
 
-    private const int MOUSE_LEFT_CLICK_ID = 1;
-    private const int MOUSE_RIGHT_CLICK_ID = 2;
-    private const int MOUSE_MIDDLE_CLICK_ID = 3;
+    private const int MOUSE_LEFT_CLICK_ID = 100; // StartingButtonId = 100...
+    private const int MOUSE_RIGHT_CLICK_ID = 101;
+    private const int MOUSE_MIDDLE_CLICK_ID = 102;
 
     protected static List<TouchInputType> TouchInputTypes = new List<TouchInputType>();
 
@@ -139,7 +139,7 @@ public class TouchManager {
         if (IsMouse() && touches.Get(MOUSE_RIGHT_CLICK_ID) != null) {
             if (TouchDragEvent == null) {
                 var touch = touches.Get(MOUSE_RIGHT_CLICK_ID);
-                if (touch.IsConsumed() || EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) {
+                if (touch.IsConsumed()) {//|| EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) {
                     return null;
                 }
 
